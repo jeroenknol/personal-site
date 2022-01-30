@@ -24,11 +24,45 @@ const initialTodos: TodoType[] = [
   },
 ];
 
+const persistedTodosMachine = todosMachine.withConfig(
+  {
+    actions: {
+      persist: (context) => {
+        try {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(
+              'todos-next-xstate',
+              JSON.stringify(context.todos)
+            );
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      },
+    },
+  },
+  {
+    todo: '',
+    todos: (() => {
+      try {
+        if (typeof window !== 'undefined') {
+          return (
+            JSON.parse(localStorage.getItem('todos-next-xstate') || 'null') ||
+            initialTodos
+          );
+        } else {
+          return initialTodos;
+        }
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    })(),
+  }
+);
+
 const Home: NextPage = () => {
-  const [state, send] = useMachine(todosMachine, {
-    devTools: true,
-    context: { todos: initialTodos },
-  });
+  const [state, send] = useMachine(persistedTodosMachine, { devTools: true });
 
   const { todo, todos } = state.context;
 
