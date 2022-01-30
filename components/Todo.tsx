@@ -30,6 +30,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
       ) : (
         <input
           value={title}
+          type='text'
           ref={inputRef}
           onChange={(e) => send({ type: 'CHANGE', value: e.target.value })}
           onBlur={(_) => {
