@@ -24,18 +24,52 @@ const initialTodos: TodoType[] = [
   },
 ];
 
+const persistedTodosMachine = todosMachine.withConfig(
+  {
+    actions: {
+      persist: (context) => {
+        try {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(
+              'todos-next-xstate',
+              JSON.stringify(context.todos)
+            );
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      },
+    },
+  },
+  {
+    todo: '',
+    todos: (() => {
+      try {
+        if (typeof window !== 'undefined') {
+          return (
+            JSON.parse(localStorage.getItem('todos-next-xstate') || 'null') ||
+            initialTodos
+          );
+        } else {
+          return initialTodos;
+        }
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    })(),
+  }
+);
+
 const Home: NextPage = () => {
-  const [state, send] = useMachine(todosMachine, {
-    devTools: true,
-    context: { todos: initialTodos },
-  });
+  const [state, send] = useMachine(persistedTodosMachine, { devTools: true });
 
   const { todo, todos } = state.context;
 
   const numActiveTodos = todos.filter((todo) => !todo.completed).length;
 
   return (
-    <div>
+    <div className='bg-slate-100 dark:bg-slate-900 min-h-full p-4 font-sans'>
       <Head>
         <title>Todo next xstate app</title>
       </Head>
@@ -45,6 +79,7 @@ const Home: NextPage = () => {
           <input
             autoFocus
             value={todo}
+            className='w-full rounded-md'
             onChange={(e) =>
               send({ type: 'NEWTODO.CHANGE', todo: e.target.value })
             }
@@ -57,15 +92,15 @@ const Home: NextPage = () => {
         </label>
       </div>
 
-      <div>
+      <p className='mt-6 dark:text-slate-500 text-sm'>
+        {numActiveTodos} item{numActiveTodos === 1 ? '' : 's'} left
+      </p>
+
+      <div className='mt-1'>
         {todos.map((todo: TodoType) => (
           <Todo key={todo.id} todoRef={todo.ref} />
         ))}
       </div>
-
-      <p>
-        {numActiveTodos} item{numActiveTodos === 1 ? '' : 's'} left
-      </p>
 
       {todos.length > numActiveTodos ? (
         <button onClick={() => send({ type: 'REMOVE_COMPLETED' })}>

@@ -71,37 +71,50 @@ export const todosMachine = createMachine<
           }),
         },
         'NEWTODO.COMMIT': {
-          actions: assign<TodosMachineContext, any>({
-            todo: '',
-            todos: (context) => {
-              const newTodo = createTodo(context.todo.trim());
-              return context.todos.concat({
-                ...newTodo,
-                ref: spawn(createTodoMachine(newTodo)),
-              });
-            },
-          }),
+          actions: [
+            assign<TodosMachineContext, any>({
+              todo: '',
+              todos: (context) => {
+                const newTodo = createTodo(context.todo.trim());
+                return context.todos.concat({
+                  ...newTodo,
+                  ref: spawn(createTodoMachine(newTodo)),
+                });
+              },
+            }),
+            'persist',
+          ],
         },
         'TODO.DELETE': {
-          actions: assign({
-            todos: (context, event) =>
-              context.todos.filter((todo) => todo.id !== event.id),
-          }),
+          actions: [
+            assign({
+              todos: (context, event) =>
+                context.todos.filter((todo) => todo.id !== event.id),
+            }),
+            'persist',
+          ],
         },
         'TODO.COMMIT': {
-          actions: assign({
-            todos: (context, event) =>
-              context.todos.map((todo) => {
-                return todo.id === event.todo.id
-                  ? { ...todo, ...event.todo, ref: todo.ref }
-                  : todo;
-              }),
-          }),
+          actions: [
+            assign({
+              todos: (context, event) =>
+                context.todos.map((todo) => {
+                  return todo.id === event.todo.id
+                    ? { ...todo, ...event.todo, ref: todo.ref }
+                    : todo;
+                }),
+            }),
+            'persist',
+          ],
         },
         REMOVE_COMPLETED: {
-          actions: assign({
-            todos: (context) => context.todos.filter((todo) => !todo.completed),
-          }),
+          actions: [
+            assign({
+              todos: (context) =>
+                context.todos.filter((todo) => !todo.completed),
+            }),
+            'persist',
+          ],
         },
       },
     },
