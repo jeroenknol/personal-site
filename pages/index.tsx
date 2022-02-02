@@ -69,7 +69,7 @@ const Home: NextPage = () => {
   const numActiveTodos = todos.filter((todo) => !todo.completed).length;
 
   return (
-    <div className='bg-slate-100 dark:bg-slate-900 min-h-full p-4 font-sans'>
+    <div className='bg-slate-100 dark:bg-slate-900 min-h-full p-4'>
       <Head>
         <title>Todo next xstate app</title>
       </Head>

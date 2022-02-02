@@ -27,7 +27,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
         value={completed}
         checked={completed}
         onChange={() => send({ type: 'TOGGLE_COMPLETE' })}
-        className='cursor-pointer rounded-md border-2 border-slate-300 bg-slate-100 dark:border-slate-600 dark:bg-slate-900'
+        className='cursor-pointer rounded-md border-2 border-slate-300 bg-slate-300 dark:border-slate-700 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900'
       />
       <div className='cursor-pointer ml-2 flex-1 dark:text-white'>
         {state.matches('reading') ? (
