@@ -1,5 +1,7 @@
-import { useActor } from '@xstate/react';
 import { useEffect, useRef } from 'react';
+import { useActor } from '@xstate/react';
+import { DatePicker } from './DatePicker';
+import type ReactDatePicker from 'react-datepicker';
 
 interface TodoProps {
   todoRef: any;
@@ -8,8 +10,15 @@ interface TodoProps {
 export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
   const [state, send]: any = useActor(todoRef);
   const inputRef = useRef<HTMLInputElement>(null);
+  const datepickerRef = useRef<ReactDatePicker>(null);
 
-  const { id, completed, title } = state.context;
+  const { id, completed, title, date } = state.context;
+
+  const closeDatepicker = () => {
+    if (datepickerRef && datepickerRef.current) {
+      datepickerRef.current.setOpen(false);
+    }
+  };
 
   useEffect(() => {
     if (state.actions.find((action: any) => action.type === 'focusInput')) {
@@ -20,7 +29,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
   return (
     <div
       key={id}
-      className='-mx-2 px-2 py-1 flex items-center rounded-md hover:cursor-pointer hover:bg-slate-50 hover:dark:bg-slate-800'
+      className='-mx-2 px-2 py-1 flex items-center rounded-md hover:cursor-pointer hover:bg-slate-50 hover:dark:bg-slate-800 group'
     >
       <input
         type='checkbox'
@@ -31,7 +40,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
       />
       <div className='cursor-pointer ml-2 flex-1 dark:text-white'>
         {state.matches('reading') ? (
-          <label onDoubleClick={() => send('EDIT')}>{title}</label>
+          <p onDoubleClick={() => send('EDIT')}>{title}</p>
         ) : (
           <input
             value={title}
@@ -51,12 +60,24 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
           />
         )}
       </div>
-      <button
+
+      <DatePicker
+        date={date}
+        handleSetDate={(date) => {
+          send({ type: 'CHANGE_DATE', date });
+        }}
+        handleClearDate={() => {
+          send('CLEAR_DATE');
+          closeDatepicker();
+        }}
+      />
+
+      {/* <button
         onClick={() => send('DELETE')}
         className='cursor-pointer dark:text-white'
       >
         x
-      </button>
+      </button> */}
     </div>
   );
 };

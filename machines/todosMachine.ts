@@ -6,6 +6,7 @@ export type TodoType = {
   id: string;
   title: string;
   completed: boolean;
+  date: Date | null;
   ref?: any;
 };
 
@@ -37,6 +38,7 @@ type TodosMachineEvents =
 const createTodo = (title: string): TodoType => ({
   id: uuid(),
   title,
+  date: null,
   completed: false,
 });
 

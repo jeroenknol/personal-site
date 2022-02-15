@@ -4,6 +4,7 @@ export interface TodoMachineContext {
   id: string;
   title: string;
   prevTitle?: string;
+  date: Date | null;
   completed: boolean;
 }
 
@@ -29,6 +30,13 @@ export type TodoMachineEvents =
       value: string;
     }
   | {
+      type: 'CHANGE_DATE';
+      date: Date;
+    }
+  | {
+      type: 'CLEAR_DATE';
+    }
+  | {
       type: 'COMMIT';
     };
 
@@ -45,6 +53,7 @@ export const createTodoMachine = ({
         id,
         title,
         prevTitle: '',
+        date: null,
         completed,
       },
       on: {
@@ -66,6 +75,20 @@ export const createTodoMachine = ({
             EDIT: {
               target: 'editing',
               actions: 'focusInput',
+            },
+            CHANGE_DATE: {
+              actions: [
+                assign<TodoMachineContext, any>({
+                  date: (_, event) => event.date,
+                }),
+              ],
+            },
+            CLEAR_DATE: {
+              actions: [
+                assign<TodoMachineContext, any>({
+                  date: null,
+                }),
+              ],
             },
           },
         },

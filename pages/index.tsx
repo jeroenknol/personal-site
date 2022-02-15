@@ -4,22 +4,25 @@ import { v4 as uuid } from 'uuid';
 import { useMachine } from '@xstate/react';
 import { todosMachine } from '../machines/todosMachine';
 import type { TodoType } from '../machines/todosMachine';
-import { Todo } from '../components/Todo';
+import { Todo } from '../components/Todo/Todo';
 
 const initialTodos: TodoType[] = [
   {
     id: uuid(),
     title: 'Do the dishes',
+    date: null,
     completed: false,
   },
   {
     id: uuid(),
     title: 'Water the plants',
+    date: null,
     completed: false,
   },
   {
     id: uuid(),
     title: 'Learn xState',
+    date: null,
     completed: false,
   },
 ];
