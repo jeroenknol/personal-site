@@ -72,9 +72,19 @@ const Home: NextPage = () => {
   const numActiveTodos = todos.filter((todo) => !todo.completed).length;
 
   return (
-    <div className='bg-slate-100 dark:bg-slate-900 min-h-full p-4'>
+    <div
+      style={{
+        WebkitTapHighlightColor: 'transparent',
+      }}
+      className='bg-slate-100 dark:bg-slate-900 min-h-full p-4'
+    >
       <Head>
         <title>Todo next xstate app</title>
+        <link rel='manifest' href='/site.webmanifest' />
+        <meta
+          name='viewport'
+          content='initial-scale=1, viewport-fit=cover, user-scalable=no'
+        />
       </Head>
 
       <div>
