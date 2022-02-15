@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useActor } from '@xstate/react';
 import { DatePicker } from './DatePicker';
+import { useLongPress } from 'react-use';
 import type ReactDatePicker from 'react-datepicker';
 
 interface TodoProps {
@@ -11,6 +12,10 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
   const [state, send]: any = useActor(todoRef);
   const inputRef = useRef<HTMLInputElement>(null);
   const datepickerRef = useRef<ReactDatePicker>(null);
+  const longPressEvent = useLongPress(() => {}, {
+    isPreventDefault: true,
+    delay: 350,
+  });
 
   const { id, completed, title, date } = state.context;
 
@@ -30,6 +35,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
     <div
       key={id}
       className='-mx-2 px-2 py-1 flex items-center rounded-md hover:cursor-pointer hover:bg-slate-50 hover:dark:bg-slate-800 group'
+      {...longPressEvent}
     >
       <input
         type='checkbox'
