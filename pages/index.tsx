@@ -61,6 +61,7 @@ const persistedTodosMachine = todosMachine.withConfig(
         return [];
       }
     })(),
+    selected: [],
   }
 );
 

@@ -1,21 +1,23 @@
 import { useEffect, useRef } from 'react';
 import { useActor } from '@xstate/react';
+import { TrashIcon } from '@heroicons/react/outline';
 import { DatePicker } from './DatePicker';
-import { useLongPress } from 'react-use';
 import type ReactDatePicker from 'react-datepicker';
+import { useOutsideClickRef } from 'rooks';
 
 interface TodoProps {
   todoRef: any;
+  isSelected?: boolean;
 }
 
-export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
+export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
   const [state, send]: any = useActor(todoRef);
   const inputRef = useRef<HTMLInputElement>(null);
   const datepickerRef = useRef<ReactDatePicker>(null);
-  const longPressEvent = useLongPress(() => {}, {
-    isPreventDefault: true,
-    delay: 350,
-  });
+  const [ref] = useOutsideClickRef(
+    () => send({ type: 'COMMIT' }),
+    state.matches('editing')
+  );
 
   const { id, completed, title, date } = state.context;
 
@@ -33,9 +35,10 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
 
   return (
     <div
+      ref={ref}
       key={id}
-      className='-mx-2 px-2 py-1 flex items-center rounded-md hover:cursor-pointer hover:bg-slate-50 hover:dark:bg-slate-800 group'
-      {...longPressEvent}
+      className='-mx-2 px-2 py-1 flex items-center rounded-md hover:cursor-pointer hover:bg-slate-50 hover:dark:bg-slate-800'
+      onClick={() => send({ type: 'EDIT' })}
     >
       <input
         type='checkbox'
@@ -48,42 +51,45 @@ export const Todo: React.FC<TodoProps> = ({ todoRef }) => {
         {state.matches('reading') ? (
           <p onDoubleClick={() => send('EDIT')}>{title}</p>
         ) : (
-          <input
-            value={title}
-            type='text'
-            ref={inputRef}
-            onChange={(e) => send({ type: 'CHANGE', value: e.target.value })}
-            onBlur={(_) => {
-              send('COMMIT');
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                send('COMMIT');
-              } else if (e.key === 'Escape') {
-                send('CANCEL');
-              }
-            }}
-          />
+          <>
+            <input
+              value={title}
+              className='bg-transparent p-0 border-none focus:ring-0'
+              type='text'
+              ref={inputRef}
+              onChange={(e) => send({ type: 'CHANGE', value: e.target.value })}
+              // onBlur={(_) => {
+              //   send('COMMIT');
+              // }}
+              // onKeyDown={(e) => {
+              //   if (e.key === 'Enter') {
+              //     send('COMMIT');
+              //   } else if (e.key === 'Escape') {
+              //     send('CANCEL');
+              //   }
+              // }}
+            />
+
+            <DatePicker
+              date={date}
+              handleSetDate={(date) => {
+                send({ type: 'CHANGE_DATE', date });
+              }}
+              handleClearDate={() => {
+                send('CLEAR_DATE');
+                closeDatepicker();
+              }}
+            />
+
+            <button
+              onClick={() => send('DELETE')}
+              className='cursor-pointer dark:text-white'
+            >
+              <TrashIcon className='w-5 h-5' />
+            </button>
+          </>
         )}
       </div>
-
-      <DatePicker
-        date={date}
-        handleSetDate={(date) => {
-          send({ type: 'CHANGE_DATE', date });
-        }}
-        handleClearDate={() => {
-          send('CLEAR_DATE');
-          closeDatepicker();
-        }}
-      />
-
-      {/* <button
-        onClick={() => send('DELETE')}
-        className='cursor-pointer dark:text-white'
-      >
-        x
-      </button> */}
     </div>
   );
 };

@@ -137,6 +137,14 @@ export const createTodoMachine = ({
           id: context.id,
         })),
         focusInput: () => {},
+        select: sendParent((context) => ({
+          type: 'SELECT',
+          id: context.id,
+        })),
+        deselect: sendParent((context) => ({
+          type: 'DESELECT',
+          id: context.id,
+        })),
       },
     }
   );

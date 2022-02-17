@@ -22,6 +22,8 @@ export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
       showTimeInput
       customTimeInput={<DatepickerFooter handleClick={handleClearDate} />}
       renderCustomHeader={DatepickerHeader}
+      withPortal
+      portalId='root-portal'
     />
   )
 );
@@ -33,9 +35,7 @@ const DatePickerInput = forwardRef<HTMLButtonElement, any>(
     <button
       onClick={onClick}
       ref={ref}
-      className={`dark:text-white text-xs dark:bg-slate-600 px-2 py-1 rounded-full ${
-        !value && 'group-hover:visible invisible'
-      }`}
+      className='dark:text-white text-xs dark:bg-slate-600 px-2 py-1 rounded-full'
     >
       {value || 'Add date'}
     </button>

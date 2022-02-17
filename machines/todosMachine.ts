@@ -13,6 +13,7 @@ export type TodoType = {
 interface TodosMachineContext {
   todo: string;
   todos: TodoType[];
+  selected: string[];
 }
 
 type TodosMachineEvents =
@@ -33,6 +34,14 @@ type TodosMachineEvents =
     }
   | {
       type: 'REMOVE_COMPLETED';
+    }
+  | {
+      type: 'SELECT';
+      id: string;
+    }
+  | {
+      type: 'DESELECT';
+      id: string;
     };
 
 const createTodo = (title: string): TodoType => ({
@@ -51,6 +60,7 @@ export const todosMachine = createMachine<
   context: {
     todo: '',
     todos: [],
+    selected: [],
   },
   states: {
     loading: {
@@ -117,6 +127,19 @@ export const todosMachine = createMachine<
             }),
             'persist',
           ],
+        },
+        SELECT: {
+          actions: assign({
+            selected: (context, event) => [...context.selected, event.id],
+          }),
+          cond: (context, event) => !context.selected.includes(event.id),
+        },
+        DESELECT: {
+          actions: assign({
+            selected: (context, event) =>
+              context.selected.filter((id) => id !== event.id),
+          }),
+          cond: (context, event) => context.selected.includes(event.id),
         },
       },
     },
