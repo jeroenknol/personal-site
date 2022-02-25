@@ -1,4 +1,4 @@
-import { createMachine, assign, spawn } from 'xstate';
+import { createMachine, assign, spawn, send } from 'xstate';
 import { v4 as uuid } from 'uuid';
 import { createTodoMachine } from './todoMachine';
 
@@ -6,23 +6,18 @@ export type TodoType = {
   id: string;
   title: string;
   completed: boolean;
-  date: Date | null;
+  date: string | null;
   ref?: any;
 };
 
 interface TodosMachineContext {
-  todo: string;
   todos: TodoType[];
   selected: string[];
 }
 
 type TodosMachineEvents =
   | {
-      type: 'NEWTODO.CHANGE';
-      todo: string;
-    }
-  | {
-      type: 'NEWTODO.COMMIT';
+      type: 'NEWTODO';
     }
   | {
       type: 'TODO.COMMIT';
@@ -44,9 +39,9 @@ type TodosMachineEvents =
       id: string;
     };
 
-const createTodo = (title: string): TodoType => ({
+const createTodo = (): TodoType => ({
   id: uuid(),
-  title,
+  title: '',
   date: null,
   completed: false,
 });
@@ -58,7 +53,6 @@ export const todosMachine = createMachine<
   id: 'todosMachine',
   initial: 'loading',
   context: {
-    todo: '',
     todos: [],
     selected: [],
   },
@@ -77,23 +71,19 @@ export const todosMachine = createMachine<
     },
     ready: {
       on: {
-        'NEWTODO.CHANGE': {
-          actions: assign<TodosMachineContext, any>({
-            todo: (_, event) => event.todo,
-          }),
-        },
-        'NEWTODO.COMMIT': {
+        NEWTODO: {
           actions: [
             assign<TodosMachineContext, any>({
-              todo: '',
               todos: (context) => {
-                const newTodo = createTodo(context.todo.trim());
+                const newTodo = createTodo();
                 return context.todos.concat({
                   ...newTodo,
-                  ref: spawn(createTodoMachine(newTodo)),
+                  // Not sure this should work with this shared comment
+                  ref: spawn(createTodoMachine(newTodo), 'newTodo'),
                 });
               },
             }),
+            send({ type: 'EDIT' }, { to: 'newTodo' }),
             'persist',
           ],
         },

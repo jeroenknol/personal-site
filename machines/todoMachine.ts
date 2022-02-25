@@ -4,7 +4,7 @@ export interface TodoMachineContext {
   id: string;
   title: string;
   prevTitle?: string;
-  date: Date | null;
+  date: string | null;
   completed: boolean;
 }
 
@@ -31,7 +31,7 @@ export type TodoMachineEvents =
     }
   | {
       type: 'CHANGE_DATE';
-      date: Date;
+      date: string;
     }
   | {
       type: 'CLEAR_DATE';
@@ -44,6 +44,7 @@ export const createTodoMachine = ({
   id,
   title,
   completed,
+  date,
 }: TodoMachineContext) =>
   createMachine<TodoMachineContext, TodoMachineEvents>(
     {
@@ -53,7 +54,7 @@ export const createTodoMachine = ({
         id,
         title,
         prevTitle: '',
-        date: null,
+        date,
         completed,
       },
       on: {
@@ -76,20 +77,6 @@ export const createTodoMachine = ({
               target: 'editing',
               actions: 'focusInput',
             },
-            CHANGE_DATE: {
-              actions: [
-                assign<TodoMachineContext, any>({
-                  date: (_, event) => event.date,
-                }),
-              ],
-            },
-            CLEAR_DATE: {
-              actions: [
-                assign<TodoMachineContext, any>({
-                  date: null,
-                }),
-              ],
-            },
           },
         },
         editing: {
@@ -107,6 +94,22 @@ export const createTodoMachine = ({
               actions: assign<TodoMachineContext, any>({
                 title: (_, event) => event.value,
               }),
+            },
+            CHANGE_DATE: {
+              actions: [
+                assign<TodoMachineContext, any>({
+                  date: (_, event) => event.date,
+                }),
+                'commit',
+              ],
+            },
+            CLEAR_DATE: {
+              actions: [
+                assign<TodoMachineContext, any>({
+                  date: null,
+                }),
+                'commit',
+              ],
             },
             COMMIT: [
               {
@@ -130,6 +133,7 @@ export const createTodoMachine = ({
             id: context.id,
             title: context.title,
             completed: context.completed,
+            date: context.date,
           },
         })),
         delete: sendParent((context) => ({

@@ -3,7 +3,19 @@ import ReactDatePicker, {
   ReactDatePickerCustomHeaderProps,
 } from 'react-datepicker';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import { format } from 'date-fns';
+import { format, isToday, isTomorrow, isPast, addDays } from 'date-fns';
+import { CalendarIcon } from '@heroicons/react/outline';
+
+const getLabel = (value: string): string => {
+  const date = new Date(value);
+  let label = format(date, 'd MMM');
+  if (isToday(date)) {
+    label = 'Today';
+  } else if (isTomorrow(date)) {
+    label = 'Tomorrow';
+  }
+  return label;
+};
 
 interface DatePickerProps {
   date: Date | null;
@@ -12,20 +24,20 @@ interface DatePickerProps {
 }
 
 export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
-  ({ handleSetDate, handleClearDate, date }, ref) => (
-    <ReactDatePicker
-      ref={ref}
-      selected={date}
-      onChange={handleSetDate}
-      customInput={<DatePickerInput />}
-      isClearable
-      showTimeInput
-      customTimeInput={<DatepickerFooter handleClick={handleClearDate} />}
-      renderCustomHeader={DatepickerHeader}
-      withPortal
-      portalId='root-portal'
-    />
-  )
+  ({ handleSetDate, handleClearDate, date }, ref) => {
+    return (
+      <ReactDatePicker
+        ref={ref}
+        selected={date}
+        onChange={handleSetDate}
+        customInput={<DatePickerInput />}
+        showTimeInput
+        customTimeInput={<DatepickerFooter handleClick={handleClearDate} />}
+        renderCustomHeader={DatepickerHeader}
+        withPortal
+      />
+    );
+  }
 );
 
 DatePicker.displayName = 'DatePicker';
@@ -35,9 +47,24 @@ const DatePickerInput = forwardRef<HTMLButtonElement, any>(
     <button
       onClick={onClick}
       ref={ref}
-      className='dark:text-white text-xs dark:bg-slate-600 px-2 py-1 rounded-full'
+      className={`block ${value ? '' : 'mt-0.5'}`}
     >
-      {value || 'Add date'}
+      {value ? (
+        <p
+          className={`
+          text-xs px-2 py-1 rounded-full dark:text-white
+          ${
+            isPast(addDays(new Date(value), 1))
+              ? 'dark:bg-red-500'
+              : 'dark:bg-slate-600'
+          }
+        `}
+        >
+          {getLabel(value)}
+        </p>
+      ) : (
+        <CalendarIcon className='w-5 h-5 dark:text-slate-500' />
+      )}
     </button>
   )
 );
@@ -67,7 +94,7 @@ const DatepickerHeader = ({
     </button>
 
     <span className='font-semibold text-gray-700'>
-      {format(date, 'MMMM yyyy')}
+      {format(new Date(date), 'MMMM yyyy')}
     </span>
 
     <button
