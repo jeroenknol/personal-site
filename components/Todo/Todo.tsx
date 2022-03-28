@@ -37,8 +37,8 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
     <div
       ref={ref}
       key={id}
-      className={`-mx-2 px-2 py-1 flex items-start rounded-md hover:cursor-pointer hover:bg-slate-50 hover:dark:bg-slate-800 ${
-        state.matches('editing') && 'dark:bg-slate-800'
+      className={`-mx-2 px-2 py-1 flex items-start rounded-md hover:cursor-pointer hover:bg-stone-300 hover:dark:bg-slate-800 ${
+        state.matches('editing') && 'bg-stone-300 dark:bg-slate-800'
       }`}
       onClick={() => send({ type: 'EDIT' })}
     >
@@ -46,11 +46,12 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
         type='checkbox'
         value={completed}
         checked={completed}
+        onClick={(e) => e.stopPropagation()}
         onChange={() => send({ type: 'TOGGLE_COMPLETE' })}
-        className='cursor-pointer mt-1 rounded-md border-2 border-slate-300 bg-slate-300 dark:border-slate-700 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900'
+        className='cursor-pointer mt-1 rounded-md border-2 border-stone-400 bg-stone-400 dark:border-slate-700 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900'
       />
 
-      <div className='cursor-pointer ml-2 flex-1 dark:text-white min-w-0'>
+      <div className='cursor-pointer ml-2 flex-1 text-stone-800 dark:text-white min-w-0'>
         {state.matches('reading') ? (
           <p className='truncate min-w-0'>{title}</p>
         ) : (
@@ -87,7 +88,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
       {state.matches('editing') && (
         <button
           onClick={() => send('DELETE')}
-          className='cursor-pointer dark:text-slate-500 mt-0.5 ml-1'
+          className='cursor-pointer text-red-700 dark:text-slate-500 mt-0.5 ml-2'
         >
           <TrashIcon className='w-5 h-5' />
         </button>
@@ -112,6 +113,11 @@ const ResizableTextarea = forwardRef<
         {...props}
         value={value}
         ref={ref}
+        onFocus={(e) => {
+          var val = e.target.value;
+          e.target.value = '';
+          e.target.value = val;
+        }}
         rows={1}
         className='resize-none bg-transparent p-0 border-none focus:ring-0 col-start-1 col-span-1 row-start-1 row-span-1'
       />

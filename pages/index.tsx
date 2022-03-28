@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       style={{
         WebkitTapHighlightColor: 'transparent',
       }}
-      className='bg-slate-100 dark:bg-slate-900 min-h-full px-4 py-8'
+      className='bg-stone-100 dark:bg-slate-900 min-h-full px-4 py-8'
     >
       <Head>
         <title>Todo next xstate app</title>

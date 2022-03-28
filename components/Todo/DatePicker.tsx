@@ -52,18 +52,18 @@ const DatePickerInput = forwardRef<HTMLButtonElement, any>(
       {value ? (
         <p
           className={`
-          text-xs px-2 py-1 rounded-full dark:text-white
+          text-xs px-2 py-1 rounded-full text-stone-800 dark:text-white
           ${
             isPast(addDays(new Date(value), 1))
-              ? 'dark:bg-red-500'
-              : 'dark:bg-slate-600'
+              ? 'bg-red-300 dark:bg-red-500'
+              : 'bg-stone-300 dark:bg-slate-600'
           }
         `}
         >
           {getLabel(value)}
         </p>
       ) : (
-        <CalendarIcon className='w-5 h-5 dark:text-slate-500' />
+        <CalendarIcon className='w-5 h-5 text-blue-800 dark:text-slate-500' />
       )}
     </button>
   )
@@ -87,13 +87,13 @@ const DatepickerHeader = ({
                     ${
                       prevMonthButtonDisabled && 'cursor-not-allowed opacity-50'
                     }
-                    inline-flex p-1 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
+                    inline-flex p-1 text-sm font-medium bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
                 `}
     >
-      <ChevronLeftIcon className='w-5 h-5 text-gray-600' />
+      <ChevronLeftIcon className='w-5 h-5 text-gray-600 dark:text-gray-300' />
     </button>
 
-    <span className='font-semibold text-gray-700'>
+    <span className='font-semibold text-gray-700 dark:text-gray-300'>
       {format(new Date(date), 'MMMM yyyy')}
     </span>
 
@@ -105,10 +105,10 @@ const DatepickerHeader = ({
                     ${
                       nextMonthButtonDisabled && 'cursor-not-allowed opacity-50'
                     }
-                    inline-flex p-1 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
+                    inline-flex p-1 text-sm font-medium bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
                 `}
     >
-      <ChevronRightIcon className='w-5 h-5 text-gray-600' />
+      <ChevronRightIcon className='w-5 h-5 text-gray-600 dark:text-gray-300' />
     </button>
   </div>
 );
