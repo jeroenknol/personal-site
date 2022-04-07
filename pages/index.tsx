@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import { Header } from '../components/Header';
 
 const Todos = dynamic(() => import('../components/Todos'), {
   ssr: false,
@@ -12,7 +13,7 @@ const Home: NextPage = () => {
       style={{
         WebkitTapHighlightColor: 'transparent',
       }}
-      className='bg-stone-100 dark:bg-slate-900 min-h-full px-4 py-8'
+      className='bg-stone-100 dark:bg-slate-900 min-h-full py-6'
     >
       <Head>
         <title>Todo next xstate app</title>
@@ -22,6 +23,8 @@ const Home: NextPage = () => {
           content='initial-scale=1, viewport-fit=cover, user-scalable=no'
         />
       </Head>
+
+      <Header />
       <Todos />
     </div>
   );

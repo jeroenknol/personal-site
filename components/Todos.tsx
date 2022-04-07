@@ -78,17 +78,17 @@ const Todos = () => {
   );
 
   return (
-    <>
+    <div className='max-w-3xl px-6 mx-auto'>
       <button
         onClick={() => send({ type: 'NEWTODO' })}
-        className='fixed bottom-4 right-4 p-4 rounded-full bg-blue-500 dark:bg-blue-500'
+        className='bottom-4 right-4 dark:bg-blue-500 fixed p-4 bg-blue-500 rounded-full'
       >
         <PlusIcon className='w-6 h-6 text-white' />
       </button>
 
       <h1
         className={`
-          text-3xl text-stone-800 dark:text-white font-bold 
+          mt-8 text-3xl text-stone-800 dark:text-white font-bold 
           ${todayTodos.length === 0 ? 'opacity-20' : ''}
         `}
       >
@@ -117,11 +117,14 @@ const Todos = () => {
       </div>
 
       {todos.length > numActiveTodos ? (
-        <button onClick={() => send({ type: 'REMOVE_COMPLETED' })}>
+        <button
+          className='text-stone-600 dark:text-slate-500 mt-1'
+          onClick={() => send({ type: 'REMOVE_COMPLETED' })}
+        >
           clear completed todos
         </button>
       ) : null}
-    </>
+    </div>
   );
 };
 
