@@ -4,6 +4,7 @@ export interface TodoMachineContext {
   id: string;
   title: string;
   prevTitle?: string;
+  date: string | null;
   completed: boolean;
 }
 
@@ -29,6 +30,13 @@ export type TodoMachineEvents =
       value: string;
     }
   | {
+      type: 'CHANGE_DATE';
+      date: string;
+    }
+  | {
+      type: 'CLEAR_DATE';
+    }
+  | {
       type: 'COMMIT';
     };
 
@@ -36,6 +44,7 @@ export const createTodoMachine = ({
   id,
   title,
   completed,
+  date,
 }: TodoMachineContext) =>
   createMachine<TodoMachineContext, TodoMachineEvents>(
     {
@@ -45,6 +54,7 @@ export const createTodoMachine = ({
         id,
         title,
         prevTitle: '',
+        date,
         completed,
       },
       on: {
@@ -85,6 +95,22 @@ export const createTodoMachine = ({
                 title: (_, event) => event.value,
               }),
             },
+            CHANGE_DATE: {
+              actions: [
+                assign<TodoMachineContext, any>({
+                  date: (_, event) => event.date,
+                }),
+                'commit',
+              ],
+            },
+            CLEAR_DATE: {
+              actions: [
+                assign<TodoMachineContext, any>({
+                  date: null,
+                }),
+                'commit',
+              ],
+            },
             COMMIT: [
               {
                 target: 'reading',
@@ -107,6 +133,7 @@ export const createTodoMachine = ({
             id: context.id,
             title: context.title,
             completed: context.completed,
+            date: context.date,
           },
         })),
         delete: sendParent((context) => ({
@@ -114,6 +141,14 @@ export const createTodoMachine = ({
           id: context.id,
         })),
         focusInput: () => {},
+        select: sendParent((context) => ({
+          type: 'SELECT',
+          id: context.id,
+        })),
+        deselect: sendParent((context) => ({
+          type: 'DESELECT',
+          id: context.id,
+        })),
       },
     }
   );
