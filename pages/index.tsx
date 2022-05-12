@@ -1,7 +1,9 @@
+import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Header } from '../components/Header';
+import { CmdK } from '../components/CmdK';
 
 const Todos = dynamic(() => import('../components/Todos'), {
   ssr: false,
@@ -25,6 +27,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Header />
+      <CmdK />
       <Todos />
     </div>
   );
