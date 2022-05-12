@@ -1,8 +1,14 @@
-import { createMachine } from 'xstate';
+import { assign, createMachine } from 'xstate';
 
-interface cmdKMachineContext {}
+interface cmdKMachineContext {
+  activeButton: string;
+}
 
 type cmdKMachineEvents =
+  | {
+      type: 'SET_ACTIVE_BUTTON';
+      id: string;
+    }
   | {
       type: 'OPEN';
     }
@@ -14,7 +20,9 @@ export const cmdKMachine = () =>
   createMachine<cmdKMachineContext, cmdKMachineEvents>({
     id: 'cmdK',
     initial: 'closed',
-    context: {},
+    context: {
+      activeButton: '',
+    },
     states: {
       closed: {
         on: {
@@ -27,6 +35,9 @@ export const cmdKMachine = () =>
         on: {
           CLOSE: {
             target: 'closed',
+          },
+          SET_ACTIVE_BUTTON: {
+            actions: assign({ activeButton: (context, event) => event.id }),
           },
         },
       },
