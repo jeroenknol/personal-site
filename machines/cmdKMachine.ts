@@ -1,13 +1,20 @@
 import { assign, createMachine } from 'xstate';
 
-interface cmdKMachineContext {
-  activeButton: string;
+export interface cmdKMachineContext {
+  activeButtonIndex: number;
 }
 
-type cmdKMachineEvents =
+export type cmdKMachineEvents =
   | {
-      type: 'SET_ACTIVE_BUTTON';
-      id: string;
+      type: 'SET_ACTIVE_BUTTON_INDEX';
+      index: number;
+    }
+  | {
+      type: 'DECREASE_ACTIVE_BUTTON_INDEX';
+    }
+  | {
+      type: 'INCREASE_ACTIVE_BUTTON_INDEX';
+      maxIndex: number;
     }
   | {
       type: 'OPEN';
@@ -21,7 +28,7 @@ export const cmdKMachine = () =>
     id: 'cmdK',
     initial: 'closed',
     context: {
-      activeButton: '',
+      activeButtonIndex: 0,
     },
     states: {
       closed: {
@@ -32,12 +39,25 @@ export const cmdKMachine = () =>
         },
       },
       open: {
+        entry: assign<cmdKMachineContext, any>({ activeButtonIndex: 0 }),
         on: {
           CLOSE: {
             target: 'closed',
           },
-          SET_ACTIVE_BUTTON: {
-            actions: assign({ activeButton: (context, event) => event.id }),
+          SET_ACTIVE_BUTTON_INDEX: {
+            actions: assign({ activeButtonIndex: (_, event) => event.index }),
+          },
+          DECREASE_ACTIVE_BUTTON_INDEX: {
+            actions: assign({
+              activeButtonIndex: (context) =>
+                Math.max(context.activeButtonIndex - 1, 0),
+            }),
+          },
+          INCREASE_ACTIVE_BUTTON_INDEX: {
+            actions: assign({
+              activeButtonIndex: (context, event) =>
+                Math.min(context.activeButtonIndex + 1, event.maxIndex),
+            }),
           },
         },
       },
