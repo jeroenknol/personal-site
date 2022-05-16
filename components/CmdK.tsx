@@ -85,13 +85,13 @@ export const CmdK = () => {
             transition={{
               duration: 0.2,
             }}
-            className='bg-slate-900 opacity-70 fixed inset-0'
+            className='bg-stone-100 dark:bg-slate-900 opacity-80 dark:opacity-70 fixed inset-0'
           />
 
           {/* Menu */}
           <Menu service={service}>
             <MenuButton onClick={toggleTheme}>
-              <ColorSwatchIcon className='text-slate-500 w-6 h-6' />
+              <ColorSwatchIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
               <p className='ml-4 font-medium'>Switch theme</p>
             </MenuButton>
             {/* <MenuButton>Bar</MenuButton> */}
@@ -191,9 +191,11 @@ const Menu = ({ children, service }: MenuProps) => {
           duration: 0.18,
         },
       }}
-      className='fixed w-[640px] h-[400px] p-2 top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-800 rounded-lg'
+      className='fixed w-[640px] h-[400px] p-2 top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-200 dark:bg-slate-800 rounded-lg'
     >
-      <h3 className='text-slate-500 px-4 pt-2 pb-4 font-medium'>⌘K Menu</h3>
+      <h3 className='text-stone-600 dark:text-slate-500 px-4 pt-2 pb-4 font-medium'>
+        ⌘K Menu
+      </h3>
       {childrenWithProps}
     </motion.div>
   );
@@ -246,8 +248,8 @@ const MenuButton = ({
       onClick={handleClick}
       id='button'
       onMouseMove={onMouseMove}
-      className={`flex px-4 py-2 rounded-md text-white ${
-        isActive ? 'bg-slate-700' : ''
+      className={`flex px-4 py-2 rounded-md text-stone-800 dark:text-white ${
+        isActive ? 'bg-stone-300 dark:bg-slate-700' : ''
       }`}
     >
       {children}

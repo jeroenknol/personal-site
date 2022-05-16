@@ -29,7 +29,7 @@ const Home: NextPage = () => {
       className='bg-stone-100 dark:bg-slate-900 min-h-full py-6'
     >
       <Head>
-        <title>Todo next xstate app</title>
+        <title>Jeroen Knol dot com</title>
         <link rel='manifest' href='/site.webmanifest' />
         <meta
           name='viewport'
