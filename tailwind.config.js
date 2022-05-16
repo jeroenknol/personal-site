@@ -3,6 +3,11 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        stone: {
+          350: '#BFBBB8',
+        },
+      },
       fontFamily: {
         sans: ['Montserrat'],
       },

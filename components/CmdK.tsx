@@ -85,7 +85,7 @@ export const CmdK = () => {
             transition={{
               duration: 0.2,
             }}
-            className='bg-stone-100 dark:bg-slate-900 opacity-80 dark:opacity-70 fixed inset-0'
+            className='bg-stone-200/80 dark:bg-slate-900/70 fixed inset-0'
           />
 
           {/* Menu */}
@@ -191,7 +191,7 @@ const Menu = ({ children, service }: MenuProps) => {
           duration: 0.18,
         },
       }}
-      className='fixed w-[640px] h-[400px] p-2 top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-200 dark:bg-slate-800 rounded-lg'
+      className='fixed w-[640px] h-[400px] p-2 top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-300 dark:bg-slate-800 rounded-lg'
     >
       <h3 className='text-stone-600 dark:text-slate-500 px-4 pt-2 pb-4 font-medium'>
         ⌘K Menu
@@ -249,7 +249,7 @@ const MenuButton = ({
       id='button'
       onMouseMove={onMouseMove}
       className={`flex px-4 py-2 rounded-md text-stone-800 dark:text-white ${
-        isActive ? 'bg-stone-300 dark:bg-slate-700' : ''
+        isActive ? 'bg-stone-350 dark:bg-slate-700' : ''
       }`}
     >
       {children}

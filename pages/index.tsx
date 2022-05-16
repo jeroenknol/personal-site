@@ -26,7 +26,7 @@ const Home: NextPage = () => {
       style={{
         WebkitTapHighlightColor: 'transparent',
       }}
-      className='bg-stone-100 dark:bg-slate-900 min-h-full py-6'
+      className='bg-stone-200 dark:bg-slate-900 min-h-full py-6'
     >
       <Head>
         <title>Jeroen Knol dot com</title>

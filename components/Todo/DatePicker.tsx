@@ -63,7 +63,7 @@ const DatePickerInput = forwardRef<HTMLButtonElement, any>(
           {getLabel(value)}
         </p>
       ) : (
-        <CalendarIcon className='w-5 h-5 text-blue-800 dark:text-slate-500' />
+        <CalendarIcon className='dark:text-slate-500 w-5 h-5 text-blue-800' />
       )}
     </button>
   )
@@ -87,13 +87,13 @@ const DatepickerHeader = ({
                     ${
                       prevMonthButtonDisabled && 'cursor-not-allowed opacity-50'
                     }
-                    inline-flex p-1 text-sm font-medium bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
+                    inline-flex p-1 text-sm font-medium bg-stone-300 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-full hover:bg-stone-200 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
                 `}
     >
-      <ChevronLeftIcon className='w-5 h-5 text-gray-600 dark:text-gray-300' />
+      <ChevronLeftIcon className='dark:text-gray-300 w-5 h-5 text-gray-600' />
     </button>
 
-    <span className='font-semibold text-gray-700 dark:text-gray-300'>
+    <span className='dark:text-gray-300 font-semibold text-gray-700'>
       {format(new Date(date), 'MMMM yyyy')}
     </span>
 
@@ -105,10 +105,10 @@ const DatepickerHeader = ({
                     ${
                       nextMonthButtonDisabled && 'cursor-not-allowed opacity-50'
                     }
-                    inline-flex p-1 text-sm font-medium bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
+                    inline-flex p-1 text-sm font-medium bg-stone-300 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-full hover:bg-stone-200 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-blue-500
                 `}
     >
-      <ChevronRightIcon className='w-5 h-5 text-gray-600 dark:text-gray-300' />
+      <ChevronRightIcon className='dark:text-gray-300 w-5 h-5 text-gray-600' />
     </button>
   </div>
 );
@@ -121,7 +121,7 @@ const DatepickerFooter = ({ handleClick }: DatePickerFooterProps) => {
   return (
     <button
       onClick={handleClick}
-      className='w-full bg-red-400 text-white font-medium text-sm py-1 mt-2  rounded-md'
+      className='w-full py-1 mt-2 text-sm font-medium text-white bg-red-400 rounded-md'
     >
       Clear
     </button>
