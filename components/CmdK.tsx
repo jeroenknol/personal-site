@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useActor, useMachine } from '@xstate/react';
 import {
   cmdKMachine,
@@ -7,6 +7,20 @@ import {
 } from '../machines/cmdKMachine';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { Interpreter } from 'xstate';
+import { ColorSwatchIcon } from '@heroicons/react/solid';
+
+const toggleTheme = () => {
+  if (document) {
+    const previousPreferedDark = localStorage.getItem('theme') === 'dark';
+    if (previousPreferedDark) {
+      localStorage.setItem('theme', 'light');
+      document.querySelector('html')?.classList.remove('dark');
+    } else {
+      localStorage.setItem('theme', 'dark');
+      document.querySelector('html')?.classList.add('dark');
+    }
+  }
+};
 
 const overlayVariants: Variants = {
   open: {
@@ -76,9 +90,12 @@ export const CmdK = () => {
 
           {/* Menu */}
           <Menu service={service}>
-            <MenuButton>Foo</MenuButton>
-            <MenuButton>Bar</MenuButton>
-            <MenuButton>Baz</MenuButton>
+            <MenuButton onClick={toggleTheme}>
+              <ColorSwatchIcon className='text-slate-500 w-6 h-6' />
+              <p className='ml-4 font-medium'>Switch theme</p>
+            </MenuButton>
+            {/* <MenuButton>Bar</MenuButton> */}
+            {/* <MenuButton>Baz</MenuButton> */}
           </Menu>
         </>
       )}
@@ -151,6 +168,9 @@ const Menu = ({ children, service }: MenuProps) => {
 
     if (React.isValidElement(child)) {
       return React.cloneElement(child, {
+        handleClose: () => {
+          send({ type: 'CLOSE' });
+        },
         onMouseMove: () => {
           onMouseMove(i);
         },
@@ -183,14 +203,50 @@ interface MenuButtonProps {
   children: React.ReactNode;
   onMouseMove?: () => void;
   isActive?: boolean;
+  onClick?: () => void;
+  handleClose?: () => void;
 }
 
-const MenuButton = ({ children, onMouseMove, isActive }: MenuButtonProps) => {
+const MenuButton = ({
+  children,
+  onMouseMove,
+  isActive,
+  onClick,
+  handleClose,
+}: MenuButtonProps) => {
+  const handleClick = useCallback(() => {
+    if (onClick) {
+      onClick();
+    }
+
+    if (handleClose) {
+      handleClose();
+    }
+  }, [onClick, handleClose]);
+
+  const handler = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        handleClick();
+      }
+    },
+    [handleClick]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', handler);
+
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
+  }, [handler]);
+
   return (
     <div
+      onClick={handleClick}
       id='button'
       onMouseMove={onMouseMove}
-      className={`px-4 py-2 rounded-md text-white ${
+      className={`flex px-4 py-2 rounded-md text-white ${
         isActive ? 'bg-slate-700' : ''
       }`}
     >

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
@@ -10,6 +10,17 @@ const Todos = dynamic(() => import('../components/Todos'), {
 });
 
 const Home: NextPage = () => {
+  useEffect(() => {
+    if (document) {
+      const prefersDarkMode = localStorage.getItem('theme') === 'dark';
+      if (prefersDarkMode) {
+        document.querySelector('html')?.classList.add('dark');
+      } else {
+        document.querySelector('html')?.classList.remove('dark');
+      }
+    }
+  }, []);
+
   return (
     <div
       style={{
