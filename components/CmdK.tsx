@@ -5,48 +5,13 @@ import {
   cmdKMachineContext,
   cmdKMachineEvents,
 } from '../machines/cmdKMachine';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { Interpreter } from 'xstate';
 import { ColorSwatchIcon } from '@heroicons/react/solid';
+import { Modal } from './Modal';
 
-const toggleTheme = () => {
-  if (document) {
-    const previousPreferedDark = localStorage.getItem('theme') === 'dark';
-    if (previousPreferedDark) {
-      localStorage.setItem('theme', 'light');
-      document.querySelector('html')?.classList.remove('dark');
-    } else {
-      localStorage.setItem('theme', 'dark');
-      document.querySelector('html')?.classList.add('dark');
-    }
-  }
-};
+type CmdKComponent = React.FC & { Button: typeof MenuButton };
 
-const overlayVariants: Variants = {
-  open: {
-    opacity: 0.8,
-  },
-  closed: {
-    opacity: 0,
-  },
-};
-
-const menuVariants: Variants = {
-  open: {
-    scale: 1,
-    opacity: 1,
-    translateX: '-50%',
-    translateY: '-50%',
-  },
-  closed: {
-    scale: 0.97,
-    opacity: 0,
-    translateX: '-50%',
-    translateY: '-50%',
-  },
-};
-
-export const CmdK = () => {
+export const CmdK: CmdKComponent = ({ children }) => {
   const [state, send, service] = useMachine(cmdKMachine, { devTools: true });
 
   const handler = useCallback(
@@ -72,34 +37,9 @@ export const CmdK = () => {
   }, [handler]);
 
   return (
-    <AnimatePresence>
-      {state.value === 'open' && (
-        <>
-          {/* Overlay */}
-          <motion.div
-            key='foobar'
-            variants={overlayVariants}
-            initial='closed'
-            animate='open'
-            exit='closed'
-            transition={{
-              duration: 0.2,
-            }}
-            className='bg-stone-200/80 dark:bg-slate-900/70 fixed inset-0'
-          />
-
-          {/* Menu */}
-          <Menu service={service}>
-            <MenuButton onClick={toggleTheme}>
-              <ColorSwatchIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
-              <p className='ml-4 font-medium'>Switch theme</p>
-            </MenuButton>
-            {/* <MenuButton>Bar</MenuButton> */}
-            {/* <MenuButton>Baz</MenuButton> */}
-          </Menu>
-        </>
-      )}
-    </AnimatePresence>
+    <Modal isOpen={state.value === 'open'}>
+      <Menu service={service}>{children}</Menu>
+    </Modal>
   );
 };
 
@@ -180,42 +120,31 @@ const Menu = ({ children, service }: MenuProps) => {
   });
 
   return (
-    <motion.div
-      variants={menuVariants}
-      initial='closed'
-      animate='open'
-      exit='closed'
-      transition={{
-        duration: 0.2,
-        scale: {
-          duration: 0.18,
-        },
-      }}
-      className='fixed w-[640px] h-[400px] p-2 top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-300 dark:bg-slate-800 rounded-lg'
-    >
+    <div className='w-[640px] h-[400px] p-2 bg-stone-300 dark:bg-slate-800 rounded-lg'>
       <h3 className='text-stone-600 dark:text-slate-500 px-4 pt-2 pb-4 font-medium'>
         ⌘K Menu
       </h3>
       {childrenWithProps}
-    </motion.div>
+    </div>
   );
 };
 
 interface MenuButtonProps {
-  children: React.ReactNode;
   onMouseMove?: () => void;
   isActive?: boolean;
   onClick?: () => void;
   handleClose?: () => void;
 }
 
-const MenuButton = ({
+type MenuButtonComponent = React.FC<MenuButtonProps> & { 'data-role': string };
+
+const MenuButton: MenuButtonComponent = ({
   children,
   onMouseMove,
   isActive,
   onClick,
   handleClose,
-}: MenuButtonProps) => {
+}) => {
   const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
@@ -258,3 +187,5 @@ const MenuButton = ({
 };
 
 MenuButton['data-role'] = 'menu-button';
+
+CmdK.Button = MenuButton;
