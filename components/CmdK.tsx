@@ -173,16 +173,16 @@ const MenuButton: MenuButtonComponent = ({
   }, [handler]);
 
   return (
-    <div
+    <button
       onClick={handleClick}
       id='button'
       onMouseMove={onMouseMove}
-      className={`flex px-4 py-2 rounded-md text-stone-800 dark:text-white ${
+      className={`w-full flex px-4 py-2 rounded-md text-stone-800 dark:text-white focus:outline-none ${
         isActive ? 'bg-stone-350 dark:bg-slate-700' : ''
       }`}
     >
       {children}
-    </div>
+    </button>
   );
 };
 
