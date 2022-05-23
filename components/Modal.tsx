@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { addElementToDom } from '../helpers/addElementToDom';
@@ -32,10 +32,30 @@ const menuVariants: Variants = {
 interface ModalProps {
   isOpen: boolean;
   children: React.ReactNode;
+  handleClose?: () => void;
 }
 
-export const Modal = ({ isOpen, children }: ModalProps) => {
+export const Modal = ({ isOpen, children, handleClose }: ModalProps) => {
   const domNode = useRef<HTMLElement>();
+
+  const handler = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (handleClose) {
+          handleClose();
+        }
+      }
+    },
+    [handleClose]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', handler);
+
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
+  }, [handler]);
 
   useEffect(() => {
     domNode.current =
@@ -55,6 +75,7 @@ export const Modal = ({ isOpen, children }: ModalProps) => {
             <motion.div
               key='foobar'
               variants={overlayVariants}
+              onClick={handleClose}
               initial='closed'
               animate='open'
               exit='closed'

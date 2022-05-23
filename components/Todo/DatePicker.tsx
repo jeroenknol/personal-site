@@ -1,10 +1,11 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import ReactDatePicker, {
   ReactDatePickerCustomHeaderProps,
 } from 'react-datepicker';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { format, isToday, isTomorrow, isPast, addDays } from 'date-fns';
 import { CalendarIcon } from '@heroicons/react/outline';
+import { Modal } from '../Modal';
 
 const getLabel = (value: string): string => {
   const date = new Date(value);
@@ -25,17 +26,24 @@ interface DatePickerProps {
 
 export const DatePicker = forwardRef<ReactDatePicker, DatePickerProps>(
   ({ handleSetDate, handleClearDate, date }, ref) => {
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-      <ReactDatePicker
-        ref={ref}
-        selected={date}
-        onChange={handleSetDate}
-        customInput={<DatePickerInput />}
-        showTimeInput
-        customTimeInput={<DatepickerFooter handleClick={handleClearDate} />}
-        renderCustomHeader={DatepickerHeader}
-        withPortal
-      />
+      <>
+        <DatePickerInput value={date} onClick={() => setIsOpen(true)} />
+
+        <Modal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
+          <ReactDatePicker
+            ref={ref}
+            selected={date}
+            onChange={handleSetDate}
+            showTimeInput
+            customTimeInput={<DatepickerFooter handleClick={handleClearDate} />}
+            renderCustomHeader={DatepickerHeader}
+            inline
+          />
+        </Modal>
+      </>
     );
   }
 );
