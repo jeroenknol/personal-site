@@ -48,12 +48,12 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
         checked={completed}
         onClick={(e) => e.stopPropagation()}
         onChange={() => send({ type: 'TOGGLE_COMPLETE' })}
-        className='cursor-pointer mt-1 rounded-md border-2 border-stone-400 bg-stone-400 dark:border-slate-700 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900'
+        className='border-stone-350 bg-stone-350 dark:border-slate-700 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 mt-1 border-2 rounded-md cursor-pointer'
       />
 
-      <div className='cursor-pointer ml-2 flex-1 text-stone-800 dark:text-white min-w-0'>
+      <div className='text-stone-800 dark:text-white flex-1 min-w-0 ml-2 cursor-pointer'>
         {state.matches('reading') ? (
-          <p className='truncate min-w-0'>{title}</p>
+          <p className='min-w-0 truncate'>{title}</p>
         ) : (
           <ResizableTextarea
             value={title}
@@ -119,9 +119,9 @@ const ResizableTextarea = forwardRef<
           e.target.value = val;
         }}
         rows={1}
-        className='resize-none bg-transparent p-0 border-none focus:ring-0 col-start-1 col-span-1 row-start-1 row-span-1'
+        className='focus:ring-0 col-span-1 col-start-1 row-span-1 row-start-1 p-0 bg-transparent border-none resize-none'
       />
-      <p className='col-start-1 col-span-1 row-start-1 row-span-1 invisible'>
+      <p className='invisible col-span-1 col-start-1 row-span-1 row-start-1'>
         {value}
       </p>
     </div>

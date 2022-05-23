@@ -1,5 +1,5 @@
 {
-  "name": "todo-next-xstate",
+  "name": "jeroenknol.com",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +13,8 @@
     "@types/react-datepicker": "^4.3.4",
     "@xstate/inspect": "^0.5.2",
     "@xstate/react": "^1.6.3",
+    "focus-trap-react": "^8.11.1",
+    "framer-motion": "^6.3.3",
     "next": "12.0.7",
     "react": "17.0.2",
     "react-datepicker": "^4.6.0",
@@ -25,6 +27,7 @@
   "devDependencies": {
     "@types/node": "17.0.2",
     "@types/react": "17.0.37",
+    "@types/react-dom": "^18.0.4",
     "@types/uuid": "^8.3.3",
     "autoprefixer": "^10.4.2",
     "eslint": "8.5.0",
