@@ -155,23 +155,6 @@ const MenuButton: MenuButtonComponent = ({
     }
   }, [onClick, handleClose]);
 
-  const handler = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        handleClick();
-      }
-    },
-    [handleClick]
-  );
-
-  useEffect(() => {
-    document.addEventListener('keydown', handler);
-
-    return () => {
-      document.removeEventListener('keydown', handler);
-    };
-  }, [handler]);
-
   return (
     <button
       onClick={handleClick}
