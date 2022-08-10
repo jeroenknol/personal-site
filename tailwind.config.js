@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
   content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   darkMode: 'class',
@@ -13,5 +15,14 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    plugin(function ({ addVariant, e }) {
+      addVariant('watch', ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          return `.${e(`watch`)} .${e(`watch${separator}${className}`)}`;
+        });
+      });
+    }),
+  ],
 };
