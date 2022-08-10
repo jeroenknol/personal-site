@@ -81,7 +81,7 @@ const Todos = () => {
     <div className='max-w-3xl px-6 mx-auto'>
       <button
         onClick={() => send({ type: 'NEWTODO' })}
-        className='bottom-4 right-4 dark:bg-blue-500 fixed p-4 bg-blue-500 rounded-full'
+        className='watch:hidden bottom-4 right-4 dark:bg-blue-500 fixed p-4 bg-blue-500 rounded-full'
       >
         <PlusIcon className='w-6 h-6 text-white' />
       </button>

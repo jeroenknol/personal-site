@@ -27,6 +27,15 @@ a {
   box-sizing: border-box;
 }
 
+.watch .scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.watch .scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 .react-datepicker__portal {
   @apply bg-stone-200/80 dark:bg-slate-900/70 fixed inset-0 flex items-center justify-center;
 }

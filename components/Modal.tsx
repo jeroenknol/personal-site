@@ -82,7 +82,7 @@ export const Modal = ({ isOpen, children, handleClose }: ModalProps) => {
               transition={{
                 duration: 0.2,
               }}
-              className='bg-stone-200/80 dark:bg-slate-900/70 fixed inset-0'
+              className='bg-stone-200/80 dark:bg-slate-900/80 fixed inset-0'
             />
 
             {/* Modal */}

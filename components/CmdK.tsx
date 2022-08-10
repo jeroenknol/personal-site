@@ -1,18 +1,11 @@
-import React, { useCallback, useEffect } from 'react';
-import { useActor, useMachine } from '@xstate/react';
-import {
-  cmdKMachine,
-  cmdKMachineContext,
-  cmdKMachineEvents,
-} from '../machines/cmdKMachine';
-import { Interpreter } from 'xstate';
-import { ColorSwatchIcon } from '@heroicons/react/solid';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Modal } from './Modal';
+import { useCmdKMachine } from '../providers/CmdK.provider';
 
 type CmdKComponent = React.FC & { Button: typeof MenuButton };
 
 export const CmdK: CmdKComponent = ({ children }) => {
-  const [state, send, service] = useMachine(cmdKMachine, { devTools: true });
+  const [state, send] = useCmdKMachine();
 
   const handler = useCallback(
     (e: KeyboardEvent) => {
@@ -37,24 +30,23 @@ export const CmdK: CmdKComponent = ({ children }) => {
   }, [handler]);
 
   return (
-    <Modal isOpen={state.value === 'open'}>
-      <Menu service={service}>{children}</Menu>
+    <Modal
+      isOpen={state.value === 'open'}
+      handleClose={() => {
+        send('CLOSE');
+      }}
+    >
+      <Menu>{children}</Menu>
     </Modal>
   );
 };
 
 interface MenuProps {
   children: React.ReactNode;
-  service: Interpreter<
-    cmdKMachineContext,
-    any,
-    cmdKMachineEvents,
-    { value: any; context: cmdKMachineContext }
-  >;
 }
 
-const Menu = ({ children, service }: MenuProps) => {
-  const [state, send] = useActor(service);
+const Menu = ({ children }: MenuProps) => {
+  const [state, send] = useCmdKMachine();
   const maxIndex =
     React.Children.toArray(children).filter(
       (child) => (child as JSX.Element).type['data-role']
@@ -145,6 +137,8 @@ const MenuButton: MenuButtonComponent = ({
   onClick,
   handleClose,
 }) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
@@ -155,8 +149,15 @@ const MenuButton: MenuButtonComponent = ({
     }
   }, [onClick, handleClose]);
 
+  useEffect(() => {
+    if (isActive) {
+      buttonRef.current && buttonRef.current.focus();
+    }
+  }, [isActive]);
+
   return (
     <button
+      ref={buttonRef}
       onClick={handleClick}
       id='button'
       onMouseMove={onMouseMove}
