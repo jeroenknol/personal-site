@@ -8,6 +8,7 @@ import { CmdK } from '../components/CmdK';
 import { ColorSwatchIcon, ClockIcon } from '@heroicons/react/solid';
 import { toggleTheme } from '../helpers/toggleTheme';
 import { WatchImage } from '../components/WatchImage';
+import { CmdKProvider } from '../providers/CmdK.provider';
 
 const Todos = dynamic(() => import('../components/Todos'), {
   ssr: false,
@@ -37,40 +38,42 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        WebkitTapHighlightColor: 'transparent',
-      }}
-      className='bg-stone-200 dark:bg-slate-900 min-h-full py-6'
-    >
-      <Head>
-        <title>Jeroen Knol dot com</title>
-        <link rel='manifest' href='/site.webmanifest' />
-        <meta
-          name='viewport'
-          content='initial-scale=1, viewport-fit=cover, user-scalable=no'
-        />
-      </Head>
+    <CmdKProvider>
+      <div
+        style={{
+          WebkitTapHighlightColor: 'transparent',
+        }}
+        className='bg-stone-200 dark:bg-slate-900 min-h-full py-6'
+      >
+        <Head>
+          <title>Jeroen Knol dot com</title>
+          <link rel='manifest' href='/site.webmanifest' />
+          <meta
+            name='viewport'
+            content='initial-scale=1, viewport-fit=cover, user-scalable=no'
+          />
+        </Head>
 
-      <Header />
+        <Header />
 
-      <CmdK>
-        <CmdK.Button onClick={toggleTheme}>
-          <ColorSwatchIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
-          <p className='ml-4 font-medium'>Switch theme</p>
-        </CmdK.Button>
-        <CmdK.Button onClick={toggleWatch}>
-          <ClockIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
-          <p className='ml-4 font-medium'>Switch to watch mode</p>
-        </CmdK.Button>
-      </CmdK>
+        <CmdK>
+          <CmdK.Button onClick={toggleTheme}>
+            <ColorSwatchIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
+            <p className='ml-4 font-medium'>Switch theme</p>
+          </CmdK.Button>
+          <CmdK.Button onClick={toggleWatch}>
+            <ClockIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
+            <p className='ml-4 font-medium'>Switch to watch mode</p>
+          </CmdK.Button>
+        </CmdK>
 
-      <Watch>
-        <Todos />
-      </Watch>
+        <Watch>
+          <Todos />
+        </Watch>
 
-      <div id={MODAL_ID} />
-    </div>
+        <div id={MODAL_ID} />
+      </div>
+    </CmdKProvider>
   );
 };
 
