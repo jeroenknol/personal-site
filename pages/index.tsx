@@ -61,10 +61,10 @@ const Home: NextPage = () => {
             <ColorSwatchIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
             <p className='ml-4 font-medium'>Switch theme</p>
           </CmdK.Button>
-          <CmdK.Button onClick={toggleWatch}>
+          {/* <CmdK.Button onClick={toggleWatch}>
             <ClockIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
             <p className='ml-4 font-medium'>Switch to watch mode</p>
-          </CmdK.Button>
+          </CmdK.Button> */}
         </CmdK>
 
         <Watch>
