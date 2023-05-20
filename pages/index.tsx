@@ -7,6 +7,7 @@ import { MODAL_ID } from '../constants';
 import { CmdK } from '../components/CmdK';
 import { ColorSwatchIcon } from '@heroicons/react/solid';
 import { toggleTheme } from '../helpers/toggleTheme';
+import { AppWindow } from '../components/AppWindow';
 
 const Todos = dynamic(() => import('../components/Todos'), {
   ssr: false,
@@ -39,7 +40,6 @@ const Home: NextPage = () => {
           content='initial-scale=1, viewport-fit=cover, user-scalable=no'
         />
       </Head>
-
       <Header />
       <CmdK>
         <CmdK.Button onClick={toggleTheme}>
@@ -47,8 +47,10 @@ const Home: NextPage = () => {
           <p className='ml-4 font-medium'>Switch theme</p>
         </CmdK.Button>
       </CmdK>
-      <Todos />
 
+      <AppWindow>
+        <Todos />
+      </AppWindow>
       <div id={MODAL_ID} />
     </div>
   );
