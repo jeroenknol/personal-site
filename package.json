@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@react-three/fiber": "^8.13.0",
     "@tailwindcss/forms": "^0.4.0",
     "@types/react-datepicker": "^4.3.4",
     "@xstate/inspect": "^0.5.2",
@@ -22,6 +23,7 @@
     "react-dom": "^18.2.0",
     "react-use": "^17.4.0",
     "rooks": "^7.14.1",
+    "three": "^0.152.2",
     "uuid": "^8.3.2",
     "xstate": "^4.37.2"
   },
