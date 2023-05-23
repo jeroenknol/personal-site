@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import { Header } from '../components/Header';
 import { MODAL_ID } from '../constants';
 import { CmdK } from '../components/CmdK';
-import { ColorSwatchIcon } from '@heroicons/react/solid';
 import { toggleTheme } from '../helpers/toggleTheme';
 
 const Todos = dynamic(() => import('../components/Todos'), {
@@ -43,7 +42,7 @@ const Home: NextPage = () => {
       <Header />
       <CmdK>
         <CmdK.Button onClick={toggleTheme}>
-          <ColorSwatchIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
+          {/* <ColorSwatchIcon className="text-stone-600 dark:text-slate-500 w-6 h-6" /> */}
           <p className='ml-4 font-medium'>Switch theme</p>
         </CmdK.Button>
       </CmdK>

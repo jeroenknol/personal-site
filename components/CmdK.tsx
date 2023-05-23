@@ -6,7 +6,6 @@ import {
   cmdKMachineEvents,
 } from '../machines/cmdKMachine';
 import { Interpreter } from 'xstate';
-import { ColorSwatchIcon } from '@heroicons/react/solid';
 import { Modal } from './Modal';
 
 type CmdKComponent = React.FC & { Button: typeof MenuButton };
