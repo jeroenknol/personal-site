@@ -2,9 +2,9 @@ import { forwardRef, useState } from 'react';
 import ReactDatePicker, {
   ReactDatePickerCustomHeaderProps,
 } from 'react-datepicker';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { format, isToday, isTomorrow, isPast, addDays } from 'date-fns';
-import { CalendarIcon } from '@heroicons/react/outline';
+import { CalendarIcon } from '@heroicons/react/24/outline';
 import { Modal } from '../Modal';
 
 const getLabel = (value: string): string => {
