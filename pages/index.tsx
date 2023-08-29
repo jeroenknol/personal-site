@@ -6,12 +6,18 @@ import { Header } from '../components/Header';
 import { MODAL_ID } from '../constants';
 import { CmdK } from '../components/CmdK';
 import { toggleTheme } from '../helpers/toggleTheme';
+import { Leva } from 'leva';
+import { CanvasElement } from '../components/Canvas';
+import { useRouter } from 'next/router';
 
 const Todos = dynamic(() => import('../components/Todos'), {
   ssr: false,
 });
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const debug = router.query.hasOwnProperty('debug');
+
   useEffect(() => {
     if (document) {
       const prefersDarkMode = localStorage.getItem('theme') === 'dark';
@@ -28,7 +34,7 @@ const Home: NextPage = () => {
       style={{
         WebkitTapHighlightColor: 'transparent',
       }}
-      className='bg-stone-200 dark:bg-slate-900 min-h-full py-6'
+      className='min-h-full py-6'
     >
       <Head>
         <title>Jeroen Knol dot com</title>
@@ -48,7 +54,13 @@ const Home: NextPage = () => {
       </CmdK>
       <Todos />
 
+      <Leva hidden={!debug} />
+
       <div id={MODAL_ID} />
+
+      <div className='-z-10 fixed inset-0'>
+        <CanvasElement />
+      </div>
     </div>
   );
 };

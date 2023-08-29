@@ -51,8 +51,10 @@ export const Hills = () => {
   });
   const { intensity, range, offset } = useControls('Misc', {
     intensity: 0.2,
-    range: 1.0,
-    offset: 1.55,
+    range: 0.8,
+    offset: 2.0,
+    // range: 1.0,
+    // offset: 1.55,
   });
 
   useFrame((state) => {

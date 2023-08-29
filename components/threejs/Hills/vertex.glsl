@@ -99,7 +99,7 @@ void main() {
 
   float offset = incline * mix(-0.25, 0.25, uv.y);
 
-  float noiseSpeed = 0.1;
+  float noiseSpeed = 0.04;
 
   float noise = snoise(
     vec3(
@@ -127,7 +127,7 @@ void main() {
 
     vec2 noiseCoord = uv * vec2(2.8, 3.3);
     float noiseFlow = 0.02 + float(i) * 0.05;
-    float noiseSeed = 10.0 + float(i) * 20.0;
+    float noiseSeed = 50.0 + float(i) * 20.0;
     float noiseSpeed = 0.08;
 
     float noise = snoise(
