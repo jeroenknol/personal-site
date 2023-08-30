@@ -9,12 +9,9 @@ import { MODAL_ID } from '../constants';
 import { CmdK } from '../components/CmdK';
 import { SwatchIcon } from '@heroicons/react/24/solid';
 import { toggleTheme } from '../helpers/toggleTheme';
-import { AppWindow } from '../components/AppWindow';
+import { AppWindow } from '../components/WindowManagement/AppWindow';
 import { CanvasElement } from '../components/Canvas';
-
-const Todos = dynamic(() => import('../components/Todos'), {
-  ssr: false,
-});
+import { WindowManagement } from '../components/WindowManagement';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -54,9 +51,7 @@ const Home: NextPage = () => {
         </CmdK.Button>
       </CmdK>
 
-      <AppWindow>
-        <Todos />
-      </AppWindow>
+      <WindowManagement />
 
       <Leva hidden={!debug} />
 
