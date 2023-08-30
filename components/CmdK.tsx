@@ -44,12 +44,7 @@ export const CmdK: CmdKComponent = ({ children }) => {
 
 interface MenuProps {
   children: React.ReactNode;
-  service: Interpreter<
-    cmdKMachineContext,
-    any,
-    cmdKMachineEvents,
-    { value: any; context: cmdKMachineContext }
-  >;
+  service: any;
 }
 
 const Menu = ({ children, service }: MenuProps) => {
@@ -61,7 +56,8 @@ const Menu = ({ children, service }: MenuProps) => {
 
   const onMouseMove = useCallback(
     (index: number) => {
-      if (state.context.activeButtonIndex !== index) {
+      // @ts-ignore
+      if (state!.context!.activeButtonIndex !== index) {
         send({ type: 'SET_ACTIVE_BUTTON_INDEX', index });
       }
     },

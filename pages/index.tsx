@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { Header } from '../components/Header';
 import { MODAL_ID } from '../constants';
 import { CmdK } from '../components/CmdK';
+import { SwatchIcon } from '@heroicons/react/24/solid';
 import { toggleTheme } from '../helpers/toggleTheme';
 import { AppWindow } from '../components/AppWindow';
 import { CanvasElement } from '../components/Canvas';
@@ -48,7 +49,7 @@ const Home: NextPage = () => {
       <Header />
       <CmdK>
         <CmdK.Button onClick={toggleTheme}>
-          {/* <ColorSwatchIcon className="text-stone-600 dark:text-slate-500 w-6 h-6" /> */}
+          <SwatchIcon className='text-stone-600 dark:text-slate-500 w-6 h-6' />
           <p className='ml-4 font-medium'>Switch theme</p>
         </CmdK.Button>
       </CmdK>

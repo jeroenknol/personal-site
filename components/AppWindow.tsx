@@ -48,7 +48,7 @@ export const AppWindow = ({ children }: Props) => {
 
   return (
     <motion.div
-      className='rounded-xl relative p-2 pt-6 bg-gray-500'
+      className='rounded-xl bg-white/30 backdrop-blur-sm shadow-window relative p-2 pt-6'
       style={{ x, y, width, height }}
     >
       {/* bottom right handle */}
@@ -64,7 +64,7 @@ export const AppWindow = ({ children }: Props) => {
           offsetWidth.set(0);
           offsetHeight.set(0);
         }}
-        className={`rounded-br-xl absolute bottom-0 right-0 w-5 h-5 ${
+        className={`rounded-br-xl absolute bottom-0 right-0 w-5 h-5 cursor-nwse-resize ${
           debug && 'bg-green-500'
         }`}
       />
@@ -85,7 +85,7 @@ export const AppWindow = ({ children }: Props) => {
           offsetHeight.set(0);
           offsetX.set(0);
         }}
-        className={` rounded-bl-xl absolute bottom-0 left-0 w-5 h-5 ${
+        className={` rounded-bl-xl absolute bottom-0 left-0 w-5 h-5 cursor-nesw-resize ${
           debug && 'bg-green-500'
         } `}
       />
@@ -109,7 +109,7 @@ export const AppWindow = ({ children }: Props) => {
           offsetX.set(0);
           offsetY.set(0);
         }}
-        className={` rounded-tl-xl absolute top-0 left-0 w-5 h-5 ${
+        className={` rounded-tl-xl absolute top-0 left-0 w-5 h-5 cursor-nwse-resize ${
           debug && 'bg-green-500'
         } `}
       />
@@ -130,7 +130,7 @@ export const AppWindow = ({ children }: Props) => {
           offsetHeight.set(0);
           offsetY.set(0);
         }}
-        className={` rounded-tr-xl absolute top-0 right-0 w-5 h-5 ${
+        className={` rounded-tr-xl absolute top-0 right-0 w-5 h-5 cursor-nesw-resize ${
           debug && 'bg-green-500'
         } `}
       />
