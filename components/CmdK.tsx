@@ -6,7 +6,6 @@ import {
   cmdKMachineEvents,
 } from '../machines/cmdKMachine';
 import { Interpreter } from 'xstate';
-import { ColorSwatchIcon } from '@heroicons/react/solid';
 import { Modal } from './Modal';
 
 type CmdKComponent = React.FC & { Button: typeof MenuButton };
@@ -38,7 +37,7 @@ export const CmdK: CmdKComponent = ({ children }) => {
 
   return (
     <Modal isOpen={state.value === 'open'}>
-      <Menu service={service}>{children}</Menu>
+      {/* <Menu service={service}>{children}</Menu> */}
     </Modal>
   );
 };
@@ -106,17 +105,17 @@ const Menu = ({ children, service }: MenuProps) => {
       return child;
     }
 
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
-        handleClose: () => {
-          send({ type: 'CLOSE' });
-        },
-        onMouseMove: () => {
-          onMouseMove(i);
-        },
-        isActive: state.context.activeButtonIndex === i,
-      });
-    }
+    // if (React.isValidElement(child)) {
+    //   return React.cloneElement(child, {
+    //     handleClose: () => {
+    //       send({ type: 'CLOSE' });
+    //     },
+    //     onMouseMove: () => {
+    //       onMouseMove(i);
+    //     },
+    //     isActive: state.context.activeButtonIndex === i,
+    //   });
+    // }
   });
 
   return (

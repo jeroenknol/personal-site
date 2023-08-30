@@ -3,7 +3,7 @@ import { useMachine } from '@xstate/react';
 import { todosMachine } from '../machines/todosMachine';
 import type { TodoType } from '../machines/todosMachine';
 import { Todo } from '../components/Todo/Todo';
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { isToday } from 'date-fns';
 
 const initialTodos: TodoType[] = [

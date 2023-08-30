@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useRef } from 'react';
 import { useActor } from '@xstate/react';
-import { TrashIcon } from '@heroicons/react/outline';
+import { TrashIcon } from '@heroicons/react/24/outline';
 import { DatePicker } from './DatePicker';
 import type ReactDatePicker from 'react-datepicker';
 import { useOutsideClickRef } from 'rooks';
