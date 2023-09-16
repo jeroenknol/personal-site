@@ -16,6 +16,7 @@ interface Props {
   minWidth?: number;
   minHeight?: number;
   initialSize?: { width: number; height: number };
+  title?: string;
 }
 
 export const AppWindow = ({
@@ -30,6 +31,7 @@ export const AppWindow = ({
     width: 500,
     height: 400,
   },
+  title,
 }: Props) => {
   const debug = false;
   const controls = useDragControls();
@@ -90,6 +92,13 @@ export const AppWindow = ({
           }}
           onMouseDown={onMouseDown}
         >
+          {/* TITLE */}
+          {title && (
+            <h3 className='left-1/2 top-1 text-black/60 absolute text-xs font-bold transform -translate-x-1/2'>
+              {title}
+            </h3>
+          )}
+
           {/* bottom right handle */}
           <motion.div
             dragControls={controls}

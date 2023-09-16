@@ -1,88 +1,118 @@
-// import Todos from '../Todos';
 import dynamic from 'next/dynamic';
 import { AppWindow } from './AppWindow';
 import { useState } from 'react';
+
+import {
+  HiOutlineClipboardCheck,
+  HiOutlineDocumentText,
+  HiOutlineIdentification,
+} from 'react-icons/hi';
 
 const Resume = dynamic(() => import('../Resume'), { ssr: false });
 const Todos = dynamic(() => import('../Todos'), {
   ssr: false,
 });
 
+enum Apps {
+  TODOS = 'Todos',
+  RESUME = 'Resume',
+  BIO = 'Bio',
+}
+
 export const WindowManagement = () => {
-  const [activeWindows, setActiveWindows] = useState<string[]>(['a', 'b']);
+  const [activeWindows, setActiveWindows] = useState<Apps[]>([
+    Apps.TODOS,
+    Apps.RESUME,
+  ]);
 
   return (
     <>
       <AppWindow
-        visible={activeWindows.includes('a')}
+        visible={activeWindows.includes(Apps.TODOS)}
         onClose={() =>
           setActiveWindows((windows) =>
-            windows.filter((window) => window !== 'a')
+            windows.filter((window) => window !== Apps.TODOS)
           )
         }
         onMouseDown={() => {
           setActiveWindows((windows) => [
-            ...windows.filter((window) => window !== 'a'),
-            'a',
+            ...windows.filter((window) => window !== Apps.TODOS),
+            Apps.TODOS,
           ]);
         }}
-        zIndex={activeWindows.indexOf('a')}
+        zIndex={activeWindows.indexOf(Apps.TODOS)}
+        title='TODOS'
       >
         <Todos />
       </AppWindow>
 
       <AppWindow
-        visible={activeWindows.includes('b')}
+        visible={activeWindows.includes(Apps.RESUME)}
         onClose={() =>
           setActiveWindows((windows) =>
-            windows.filter((window) => window !== 'b')
+            windows.filter((window) => window !== Apps.RESUME)
           )
         }
         onMouseDown={() => {
           setActiveWindows((windows) => [
-            ...windows.filter((window) => window !== 'b'),
-            'b',
+            ...windows.filter((window) => window !== Apps.RESUME),
+            Apps.RESUME,
           ]);
         }}
-        zIndex={activeWindows.indexOf('b')}
+        zIndex={activeWindows.indexOf(Apps.RESUME)}
         minWidth={520}
         minHeight={400}
         initialSize={{ width: 800, height: 600 }}
+        title='RESUME'
       >
         <Resume />
       </AppWindow>
 
-      <div className='bottom-2 shadow-taskbar bg-white/30 rounded-xl left-1/2 absolute flex gap-2 p-2 transform -translate-x-1/2'>
+      <div className='bottom-2 shadow-taskbar bg-white/30 rounded-xl left-1/2 absolute z-50 flex gap-2 p-2 transform -translate-x-1/2'>
         <button
           onClick={() =>
             setActiveWindows((windows) => [
-              ...windows.filter((window) => window !== 'a'),
-              'a',
+              ...windows.filter((window) => window !== Apps.RESUME),
+              Apps.RESUME,
             ])
           }
         >
           <div
-            className={`flex items-center justify-center w-12 h-12 text-3xl font-bold bg-white rounded-lg ${
-              activeWindows.includes('a') ? 'bg-green-400' : 'bg-white'
-            }`}
+            className={`relative flex transition-all items-center justify-center w-12 h-12 text-2xl rounded-lg  ${
+              activeWindows.includes(Apps.RESUME)
+                ? 'bg-white/90 text-blue-500 shadow-appIcon'
+                : 'bg-white/0 text-gray-600'
+            } ${
+              activeWindows.at(1) === Apps.RESUME
+                ? 'before:content-[""] before:absolute before:w-1.5 before:h-1.5 before:bg-current before:rounded-full before:top-1 before:left-1'
+                : ''
+            }
+            `}
           >
-            A
+            <HiOutlineDocumentText />
           </div>
         </button>
         <button
           onClick={() =>
             setActiveWindows((windows) => [
-              ...windows.filter((window) => window !== 'b'),
-              'b',
+              ...windows.filter((window) => window !== Apps.TODOS),
+              Apps.TODOS,
             ])
           }
         >
           <div
-            className={`flex items-center justify-center w-12 h-12 text-3xl font-bold bg-white rounded-lg ${
-              activeWindows.includes('b') ? 'bg-green-400' : 'bg-white'
-            }`}
+            className={`relative flex transition-all items-center justify-center w-12 h-12 text-2xl rounded-lg ${
+              activeWindows.includes(Apps.TODOS)
+                ? 'bg-white/90 text-green-500 shadow-appIcon'
+                : 'bg-white/0 text-gray-600'
+            } ${
+              activeWindows.at(1) === Apps.TODOS
+                ? 'before:content-[""] before:absolute before:w-1.5 before:h-1.5 before:bg-current before:rounded-full before:top-1 before:left-1'
+                : ''
+            }
+            `}
           >
-            B
+            <HiOutlineClipboardCheck />
           </div>
         </button>
       </div>
