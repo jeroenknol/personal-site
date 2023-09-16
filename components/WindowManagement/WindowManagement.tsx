@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { AppWindow } from './AppWindow';
 import { useState } from 'react';
 
+const Resume = dynamic(() => import('../Resume'), { ssr: false });
 const Todos = dynamic(() => import('../Todos'), {
   ssr: false,
 });
@@ -44,13 +45,21 @@ export const WindowManagement = () => {
           ]);
         }}
         zIndex={activeWindows.indexOf('b')}
+        minWidth={520}
+        minHeight={400}
+        initialSize={{ width: 800, height: 600 }}
       >
-        <Todos />
+        <Resume />
       </AppWindow>
 
       <div className='bottom-2 shadow-taskbar bg-white/30 rounded-xl left-1/2 absolute flex gap-2 p-2 transform -translate-x-1/2'>
         <button
-          onClick={() => setActiveWindows((windows) => [...windows, 'a'])}
+          onClick={() =>
+            setActiveWindows((windows) => [
+              ...windows.filter((window) => window !== 'a'),
+              'a',
+            ])
+          }
         >
           <div
             className={`flex items-center justify-center w-12 h-12 text-3xl font-bold bg-white rounded-lg ${
@@ -61,7 +70,12 @@ export const WindowManagement = () => {
           </div>
         </button>
         <button
-          onClick={() => setActiveWindows((windows) => [...windows, 'b'])}
+          onClick={() =>
+            setActiveWindows((windows) => [
+              ...windows.filter((window) => window !== 'b'),
+              'b',
+            ])
+          }
         >
           <div
             className={`flex items-center justify-center w-12 h-12 text-3xl font-bold bg-white rounded-lg ${

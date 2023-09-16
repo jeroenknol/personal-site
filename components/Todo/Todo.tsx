@@ -37,7 +37,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
     <div
       ref={ref}
       key={id}
-      className={`-mx-2 px-2 py-1 flex items-start rounded-md hover:cursor-pointer hover:bg-stone-300 hover:dark:bg-slate-800 ${
+      className={`-mx-2 px-2 py-1 flex items-start rounded-md hover:cursor-pointer hover:bg-stone-100 hover:dark:bg-slate-800 ${
         state.matches('editing') && 'bg-stone-300 dark:bg-slate-800'
       }`}
       onClick={() => send({ type: 'EDIT' })}

@@ -13,6 +13,9 @@ interface Props {
   onClose: () => void;
   onMouseDown: () => void;
   zIndex: number;
+  minWidth?: number;
+  minHeight?: number;
+  initialSize?: { width: number; height: number };
 }
 
 export const AppWindow = ({
@@ -21,6 +24,12 @@ export const AppWindow = ({
   onClose,
   onMouseDown,
   zIndex,
+  minWidth = 0,
+  minHeight = 0,
+  initialSize = {
+    width: 500,
+    height: 400,
+  },
 }: Props) => {
   const debug = false;
   const controls = useDragControls();
@@ -30,29 +39,28 @@ export const AppWindow = ({
   const offsetX = useMotionValue<number>(0);
   const offsetY = useMotionValue<number>(0);
 
-  const x = useTransform(
-    [prevX, offsetX],
-    ([total, offset]: any) => total + offset
+  const x = useTransform([prevX, offsetX], ([total, offset]: any) =>
+    Math.floor(total + offset)
   );
-  const y = useTransform(
-    [prevY, offsetY],
-    ([total, offset]: any) => total + offset
+
+  const y = useTransform([prevY, offsetY], ([total, offset]: any) =>
+    Math.floor(total + offset)
   );
 
   //------ WIDTH -----
 
-  const prevWidth = useMotionValue<number>(500);
-  const prevHeight = useMotionValue<number>(400);
+  const prevWidth = useMotionValue<number>(initialSize.width);
+  const prevHeight = useMotionValue<number>(initialSize.height);
   const offsetWidth = useMotionValue<number>(0);
   const offsetHeight = useMotionValue<number>(0);
 
-  const width = useTransform(
-    [prevWidth, offsetWidth],
-    ([prev, offset]: any) => prev + offset
+  const width = useTransform([prevWidth, offsetWidth], ([prev, offset]: any) =>
+    Math.floor(Math.max(prev + offset, minWidth))
   );
+
   const height = useTransform(
     [prevHeight, offsetHeight],
-    ([prev, offset]: any) => prev + offset
+    ([prev, offset]: any) => Math.floor(Math.max(prev + offset, minHeight))
   );
 
   //------------------
@@ -89,9 +97,9 @@ export const AppWindow = ({
               offsetWidth.set(x);
               offsetHeight.set(y);
             }}
-            onPanEnd={(_, { offset: { x, y } }) => {
-              prevWidth.set(prevWidth.get() + x);
-              prevHeight.set(prevHeight.get() + y);
+            onPanEnd={() => {
+              prevWidth.set(prevWidth.get() + offsetWidth.get());
+              prevHeight.set(prevHeight.get() + offsetHeight.get());
               offsetWidth.set(0);
               offsetHeight.set(0);
             }}
@@ -104,14 +112,18 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { x, y } }) => {
-              offsetWidth.set(-x);
-              offsetHeight.set(y);
-              offsetX.set(x);
+              if (prevWidth.get() - x > minWidth) {
+                offsetWidth.set(-x);
+                offsetX.set(x);
+              }
+              if (prevHeight.get() + y > minHeight) {
+                offsetHeight.set(y);
+              }
             }}
-            onPanEnd={(_, { offset: { x, y } }) => {
-              prevWidth.set(prevWidth.get() - x);
-              prevHeight.set(prevHeight.get() + y);
-              prevX.set(prevX.get() + x);
+            onPanEnd={() => {
+              prevWidth.set(prevWidth.get() + offsetWidth.get());
+              prevHeight.set(prevHeight.get() + offsetHeight.get());
+              prevX.set(prevX.get() + offsetX.get());
               offsetWidth.set(0);
               offsetHeight.set(0);
               offsetX.set(0);
@@ -125,16 +137,20 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { x, y } }) => {
-              offsetWidth.set(-x);
-              offsetHeight.set(-y);
-              offsetX.set(x);
-              offsetY.set(y);
+              if (prevWidth.get() - x > minWidth) {
+                offsetWidth.set(-x);
+                offsetX.set(x);
+              }
+              if (prevHeight.get() - y > minHeight) {
+                offsetHeight.set(-y);
+                offsetY.set(y);
+              }
             }}
-            onPanEnd={(_, { offset: { x, y } }) => {
-              prevWidth.set(prevWidth.get() - x);
-              prevHeight.set(prevHeight.get() - y);
-              prevX.set(prevX.get() + x);
-              prevY.set(prevY.get() + y);
+            onPanEnd={() => {
+              prevWidth.set(prevWidth.get() + offsetWidth.get());
+              prevHeight.set(prevHeight.get() + offsetHeight.get());
+              prevX.set(prevX.get() + offsetX.get());
+              prevY.set(prevY.get() + offsetY.get());
               offsetWidth.set(0);
               offsetHeight.set(0);
               offsetX.set(0);
@@ -149,14 +165,18 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { x, y } }) => {
-              offsetWidth.set(x);
-              offsetHeight.set(-y);
-              offsetY.set(y);
+              if (prevWidth.get() + x > minWidth) {
+                offsetWidth.set(x);
+              }
+              if (prevHeight.get() - y > minHeight) {
+                offsetHeight.set(-y);
+                offsetY.set(y);
+              }
             }}
-            onPanEnd={(_, { offset: { x, y } }) => {
-              prevWidth.set(prevWidth.get() + x);
-              prevHeight.set(prevHeight.get() - y);
-              prevY.set(prevY.get() + y);
+            onPanEnd={() => {
+              prevWidth.set(prevWidth.get() + offsetWidth.get());
+              prevHeight.set(prevHeight.get() + offsetHeight.get());
+              prevY.set(prevY.get() + offsetY.get());
               offsetWidth.set(0);
               offsetHeight.set(0);
               offsetY.set(0);
@@ -170,16 +190,18 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { y } }) => {
-              offsetHeight.set(-y);
-              offsetY.set(y);
+              if (prevHeight.get() - y > minHeight) {
+                offsetHeight.set(-y);
+                offsetY.set(y);
+              }
             }}
-            onPanEnd={(_, { offset: { y } }) => {
-              prevHeight.set(prevHeight.get() - y);
-              prevY.set(prevY.get() + y);
+            onPanEnd={() => {
+              prevHeight.set(prevHeight.get() + offsetHeight.get());
+              prevY.set(prevY.get() + offsetY.get());
               offsetHeight.set(0);
               offsetY.set(0);
             }}
-            className={` left-5 right-5 absolute top-0 h-1.5 ${
+            className={` left-5 right-5 absolute top-0 h-1.5 cursor-ns-resize ${
               debug && 'bg-orange-500'
             } `}
           />
@@ -188,13 +210,15 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { y } }) => {
-              offsetHeight.set(y);
+              if (prevHeight.get() + y > minHeight) {
+                offsetHeight.set(y);
+              }
             }}
-            onPanEnd={(_, { offset: { y } }) => {
-              prevHeight.set(prevHeight.get() + y);
+            onPanEnd={() => {
+              prevHeight.set(prevHeight.get() + offsetHeight.get());
               offsetHeight.set(0);
             }}
-            className={` left-5 right-5 absolute bottom-0 h-2 ${
+            className={` left-5 right-5 absolute bottom-0 h-2 cursor-ns-resize ${
               debug && 'bg-orange-500'
             } `}
           />
@@ -203,16 +227,18 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { x } }) => {
-              offsetWidth.set(-x);
-              offsetX.set(x);
+              if (prevWidth.get() - x > minWidth) {
+                offsetWidth.set(-x);
+                offsetX.set(x);
+              }
             }}
-            onPanEnd={(_, { offset: { x } }) => {
-              prevWidth.set(prevWidth.get() - x);
-              prevX.set(prevX.get() + x);
+            onPanEnd={() => {
+              prevWidth.set(prevWidth.get() + offsetWidth.get());
+              prevX.set(prevX.get() + offsetX.get());
               offsetWidth.set(0);
               offsetX.set(0);
             }}
-            className={` top-5 bottom-5 absolute left-0 w-2 ${
+            className={` top-5 bottom-5 absolute left-0 w-2 cursor-ew-resize ${
               debug && 'bg-orange-500'
             } `}
           />
@@ -221,21 +247,21 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { x } }) => {
-              offsetWidth.set(x);
+              if (prevWidth.get() + x > minWidth) {
+                offsetWidth.set(x);
+              }
             }}
-            onPanEnd={(_, { offset: { x } }) => {
-              prevWidth.set(prevWidth.get() + x);
+            onPanEnd={() => {
+              prevWidth.set(prevWidth.get() + offsetWidth.get());
               offsetWidth.set(0);
             }}
-            className={` top-5 bottom-5 absolute right-0 w-2 ${
+            className={` top-5 bottom-5 absolute right-0 w-2 cursor-ew-resize ${
               debug && 'bg-orange-500'
             } `}
           />
 
           {/* Content */}
-          <motion.div className='relative h-full bg-gray-200 rounded-lg'>
-            {children}
-          </motion.div>
+          {children}
 
           {/* Top position drag controls */}
           <motion.div
@@ -247,9 +273,9 @@ export const AppWindow = ({
               offsetX.set(x);
               offsetY.set(y);
             }}
-            onPanEnd={(_, { offset: { x, y } }) => {
-              prevX.set(prevX.get() + x);
-              prevY.set(prevY.get() + y);
+            onPanEnd={() => {
+              prevX.set(prevX.get() + offsetX.get());
+              prevY.set(prevY.get() + offsetY.get());
               offsetX.set(0);
               offsetY.set(0);
             }}
@@ -272,7 +298,7 @@ export const AppWindow = ({
                 animate(prevX, 0, { duration: 0.5 });
                 animate(prevY, 0, { duration: 0.5 });
                 animate(prevWidth, window.innerWidth, { duration: 0.5 });
-                animate(prevHeight, window.innerHeight - 86.5, {
+                animate(prevHeight, window.innerHeight - 86.5 - 72, {
                   duration: 0.5,
                 });
               }}

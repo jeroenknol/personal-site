@@ -14,7 +14,7 @@ export const CanvasElement = () => {
       <Hills />
       <OrbitControls />
 
-      <color args={['#20222B']} attach='background' />
+      <color args={['#dfffff']} attach='background' />
     </Canvas>
   );
 };

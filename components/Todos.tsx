@@ -78,52 +78,54 @@ const Todos = () => {
   );
 
   return (
-    <div className='max-w-3xl p-6 mx-auto'>
-      <button
-        onClick={() => send({ type: 'NEWTODO' })}
-        className='bottom-4 right-4 dark:bg-blue-500 absolute p-4 bg-blue-500 rounded-full'
-      >
-        <PlusIcon className='w-6 h-6 text-white' />
-      </button>
+    <div className='relative h-full bg-white rounded-lg shadow-inner'>
+      <div className='max-w-3xl p-6 mx-auto'>
+        <button
+          onClick={() => send({ type: 'NEWTODO' })}
+          className='bottom-4 right-4 dark:bg-blue-500 absolute p-4 bg-blue-500 rounded-full'
+        >
+          <PlusIcon className='w-6 h-6 text-white' />
+        </button>
 
-      <h1
-        className={`
+        <h1
+          className={`
           mt-4 text-3xl text-stone-800 dark:text-white font-bold 
           ${todayTodos.length === 0 ? 'opacity-20' : ''}
         `}
-      >
-        Today
-      </h1>
+        >
+          Today
+        </h1>
 
-      <div className='mt-4'>
-        {todayTodos.map((todo: TodoType) => (
-          <Todo key={todo.id} todoRef={todo.ref} />
-        ))}
-      </div>
+        <div className='mt-4'>
+          {todayTodos.map((todo: TodoType) => (
+            <Todo key={todo.id} todoRef={todo.ref} />
+          ))}
+        </div>
 
-      <h2
-        className={`
+        <h2
+          className={`
           text-3xl text-stone-800 dark:text-white font-bold mt-10
           ${notTodayTodos.length === 0 ? 'opacity-20' : ''}
         `}
-      >
-        Not today
-      </h2>
-
-      <div className='mt-4'>
-        {notTodayTodos.map((todo: TodoType) => (
-          <Todo key={todo.id} todoRef={todo.ref} />
-        ))}
-      </div>
-
-      {todos.length > numActiveTodos ? (
-        <button
-          className='text-stone-600 dark:text-slate-500 mt-1'
-          onClick={() => send({ type: 'REMOVE_COMPLETED' })}
         >
-          clear completed todos
-        </button>
-      ) : null}
+          Not today
+        </h2>
+
+        <div className='mt-4'>
+          {notTodayTodos.map((todo: TodoType) => (
+            <Todo key={todo.id} todoRef={todo.ref} />
+          ))}
+        </div>
+
+        {todos.length > numActiveTodos ? (
+          <button
+            className='text-stone-600 dark:text-slate-500 mt-1'
+            onClick={() => send({ type: 'REMOVE_COMPLETED' })}
+          >
+            clear completed todos
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 };
