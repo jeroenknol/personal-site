@@ -10,7 +10,7 @@ class MyDocument extends Document {
             rel='stylesheet'
           />
         </Head>
-        <body className='overflow-hidden select-none'>
+        <body className='fixed w-full h-full overflow-hidden select-none'>
           <Main />
           <NextScript />
         </body>

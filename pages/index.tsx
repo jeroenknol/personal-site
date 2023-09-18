@@ -12,10 +12,12 @@ import { MODAL_ID } from '../constants';
 // import { AppWindow } from '../components/WindowManagement/AppWindow';
 import { CanvasElement } from '../components/Canvas';
 import { WindowManagement } from '../components/WindowManagement';
+import { useTheme } from '../providers/Theme.provider';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const debug = router.query.hasOwnProperty('debug');
+  const theme = useTheme();
 
   return (
     <div
@@ -27,6 +29,10 @@ const Home: NextPage = () => {
       <Head>
         <title>Jeroen Knol dot com</title>
         <link rel='manifest' href='/site.webmanifest' />
+        <meta
+          name='theme-color'
+          content={theme === 'dark' ? '#090C20' : '#CDF5F7'}
+        />
         <meta
           name='viewport'
           content='initial-scale=1, viewport-fit=cover, user-scalable=no'
