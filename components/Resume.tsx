@@ -19,14 +19,16 @@ export const Resume = () => {
   const [visible, setVisible] = useState<Projects>(Projects.GELDVINDER);
 
   return (
-    <div className=' flex h-full'>
+    <div className=' dark:text-slate-200 text-slate-800 flex h-full'>
       <div className='w-[160px] flex-shrink-0 flex flex-col pt-4 pr-2'>
         <h3 className='mb-4 ml-4 text-2xl font-bold'>Projects</h3>
         {Object.values(Projects).map((project) => (
           <button
             key={project}
             className={`focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 inline-flex items-center justify-start px-4 py-1 mb-1 text-sm font-medium transition-colors rounded-md ${
-              visible === project ? 'bg-blue-500/40' : 'hover:bg-blue-500/10'
+              visible === project
+                ? 'bg-blue-500/40 dark:bg-slate-500/40'
+                : 'hover:bg-blue-500/10 dark:hover:bg-slate-500/20'
             }`}
             onClick={() => setVisible(project)}
           >
@@ -35,7 +37,7 @@ export const Resume = () => {
         ))}
       </div>
 
-      <div className='relative flex justify-center w-full h-full bg-white rounded-lg shadow-inner'>
+      <div className='dark:bg-slate-800 relative flex justify-center w-full h-full bg-white rounded-lg shadow-inner'>
         <div className='no-scrollbar max-w-xl p-8 overflow-y-auto'>
           {visible === Projects.GELDVINDER && <Geldvinder />}
           {visible === Projects.PROPEL && <Propel />}

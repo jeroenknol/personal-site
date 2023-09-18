@@ -31,7 +31,7 @@ export const Hema = () => {
       </p>
       <a
         href='https://babystraatje.nl/baby/baby-verzorging/nieuwe-hema-babybox/'
-        className='inline-block mt-6 text-sm text-blue-700'
+        className='dark:text-blue-400 inline-block mt-6 text-sm text-blue-700'
         target='_blank'
       >
         Article about the Hema Babybox

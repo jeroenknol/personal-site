@@ -33,7 +33,7 @@ export const Zwitserleven = () => {
       </p>
       <a
         href='https://www.zwitserleven.nl/'
-        className='inline-block mt-6 text-sm text-blue-700'
+        className='dark:text-blue-400 inline-block mt-6 text-sm text-blue-700'
         target='_blank'
       >
         Visit zwitserleven.nl

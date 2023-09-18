@@ -37,8 +37,8 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
     <div
       ref={ref}
       key={id}
-      className={`-mx-2 px-2 py-1 flex items-start rounded-md hover:cursor-pointer hover:bg-stone-100 hover:dark:bg-slate-800 ${
-        state.matches('editing') && 'bg-stone-300 dark:bg-slate-800'
+      className={`-mx-2 px-2 py-1 flex items-start rounded-md hover:cursor-pointer hover:bg-stone-100 hover:dark:bg-slate-700 ${
+        state.matches('editing') && 'bg-stone-300 dark:bg-slate-700'
       }`}
       onClick={() => send({ type: 'EDIT' })}
     >
@@ -48,7 +48,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
         checked={completed}
         onClick={(e) => e.stopPropagation()}
         onChange={() => send({ type: 'TOGGLE_COMPLETE' })}
-        className='border-stone-350 bg-stone-350 dark:border-slate-700 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 mt-1 border-2 rounded-md cursor-pointer'
+        className='border-stone-350 bg-stone-350 dark:border-slate-600 dark:bg-slate-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 mt-1 border-2 rounded-md cursor-pointer'
       />
 
       <div className='text-stone-800 dark:text-white flex-1 min-w-0 ml-2 cursor-pointer'>

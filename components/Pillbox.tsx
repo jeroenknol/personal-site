@@ -4,8 +4,10 @@ interface PillProps {
 
 const Pill = ({ children }: PillProps) => {
   return (
-    <div className='flex-shrink-0 px-2 py-1 bg-blue-200 rounded-full'>
-      <p className='text-xs font-bold text-blue-800'>{children}</p>
+    <div className='dark:bg-blue-900/70 flex-shrink-0 px-2 py-1 bg-blue-200 rounded-full'>
+      <p className='dark:text-blue-300 text-xs font-bold text-blue-800'>
+        {children}
+      </p>
     </div>
   );
 };

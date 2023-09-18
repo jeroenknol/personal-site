@@ -34,7 +34,7 @@ export const Colormate = () => {
       </p>
       <a
         href='https://github.com/themainingredient/colormate/'
-        className='inline-block mt-6 text-sm text-blue-700'
+        className='dark:text-blue-400 inline-block mt-6 text-sm text-blue-700'
         target='_blank'
       >
         Colormate on Github

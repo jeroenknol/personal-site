@@ -78,7 +78,7 @@ const Todos = () => {
   );
 
   return (
-    <div className='relative h-full bg-white rounded-lg shadow-inner'>
+    <div className='dark:bg-slate-800 relative h-full bg-white rounded-lg shadow-inner'>
       <div className='max-w-3xl p-6 mx-auto'>
         <button
           onClick={() => send({ type: 'NEWTODO' })}

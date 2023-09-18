@@ -36,7 +36,7 @@ export const Geldvinder = () => {
       </p>
       <a
         href='https://www.geldvinder.nl/medewerkers/'
-        className='inline-block mt-6 text-sm text-blue-700'
+        className='dark:text-blue-400 inline-block mt-6 text-sm text-blue-700'
         target='_blank'
       >
         Visit geldvinder.nl

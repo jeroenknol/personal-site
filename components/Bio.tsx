@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export const Bio = () => {
   return (
-    <div className='flex h-full'>
+    <div className='dark:text-slate-200 text-slate-800 flex h-full'>
       <div className='flex-shrink-0 p-4'>
         <Image
           src='/me_cropy.jpg'
@@ -11,17 +11,20 @@ export const Bio = () => {
           height='140'
           className='rounded-full'
         />
-        <p className='mt-4 text-xs'>Name</p>
+        <p className=' mt-4 text-xs'>Name</p>
         <p className='text-sm font-bold'>Jeroen Knol</p>
         <p className='mt-2 text-xs'>Age</p>
         <p className='text-sm font-bold'>31</p>
+        {/* <p className='mt-2 text-xs'>Dev experience</p>
+        <p className='text-sm font-bold'>7 years</p> */}
         <p className='mt-2 text-xs'>Nationality</p>
         <p className='text-sm font-bold'>Dutch</p>
         <p className='mt-2 text-xs'>Residence</p>
         <p className='text-sm font-bold'>Arnhem</p>
       </div>
-      <div className='flex justify-center w-full h-full bg-white rounded-lg shadow-inner'>
+      <div className='dark:bg-slate-800 flex justify-center w-full h-full bg-white rounded-lg shadow-inner'>
         <div className='no-scrollbar max-w-lg gap-6 p-6 overflow-y-auto'>
+          <h3 className='mb-1 -mt-2 text-lg font-bold'>About me</h3>
           <p className='text-sm'>
             From a young age, I was eager to learn how things work. Opening up
             the toaster instead of making toast, much to mom&apos;s annoyance.

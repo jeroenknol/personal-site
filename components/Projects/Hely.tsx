@@ -33,7 +33,7 @@ export const Hely = () => {
       </p>
       <a
         href='https://hely.com/'
-        className='inline-block mt-6 text-sm text-blue-700'
+        className='dark:text-blue-400 inline-block mt-6 text-sm text-blue-700'
         target='_blank'
       >
         Visit hely.com

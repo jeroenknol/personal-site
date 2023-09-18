@@ -46,7 +46,7 @@ export const Propel = () => {
       </p>
       <a
         href='https://www.propelapp.org/'
-        className='inline-block mt-6 text-sm text-blue-700'
+        className='dark:text-blue-400 inline-block mt-6 text-sm text-blue-700'
         target='_blank'
       >
         Visit withpropel.app

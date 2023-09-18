@@ -71,7 +71,7 @@ export const AppWindow = ({
     <AnimatePresence>
       {visible && (
         <motion.div
-          className='rounded-xl bg-white/30 backdrop-blur-sm shadow-window absolute p-2 pt-6'
+          className='rounded-xl bg-slate-100/60 backdrop-blur-sm shadow-window dark:bg-slate-700/70 absolute p-2 pt-6'
           style={{ x, y, width, height, zIndex }}
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{
@@ -94,7 +94,7 @@ export const AppWindow = ({
         >
           {/* TITLE */}
           {title && (
-            <h3 className='left-1/2 top-1 text-black/60 absolute text-xs font-bold transform -translate-x-1/2'>
+            <h3 className='left-1/2 top-1 text-black/60 dark:text-slate-400 absolute text-xs font-bold transform -translate-x-1/2'>
               {title}
             </h3>
           )}
