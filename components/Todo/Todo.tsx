@@ -13,19 +13,19 @@ interface TodoProps {
 export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
   const [state, send]: any = useActor(todoRef);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const datepickerRef = useRef<ReactDatePicker>(null);
+  // const datepickerRef = useRef<ReactDatePicker>(null);
   const [ref] = useOutsideClickRef(
     () => send({ type: 'COMMIT' }),
     state.matches('editing')
   );
 
-  const { id, completed, title, date } = state.context;
+  const { id, completed, title /* date */ } = state.context;
 
-  const closeDatepicker = () => {
-    if (datepickerRef && datepickerRef.current) {
-      datepickerRef.current.setOpen(false);
-    }
-  };
+  // const closeDatepicker = () => {
+  //   if (datepickerRef && datepickerRef.current) {
+  //     datepickerRef.current.setOpen(false);
+  //   }
+  // };
 
   useEffect(() => {
     if (state.actions.find((action: any) => action.type === 'focusInput')) {
@@ -51,7 +51,13 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
         className='border-stone-350 bg-stone-350 dark:border-slate-600 dark:bg-slate-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 mt-1 border-2 rounded-md cursor-pointer'
       />
 
-      <div className='text-stone-800 dark:text-white flex-1 min-w-0 ml-2 cursor-pointer'>
+      <div
+        className={`flex-1 min-w-0 ml-2 cursor-pointer ${
+          completed
+            ? 'text-stone-500 dark:text-slate-500'
+            : 'text-stone-800 dark:text-white'
+        }`}
+      >
         {state.matches('reading') ? (
           <p className='min-w-0 truncate'>{title}</p>
         ) : (
@@ -72,7 +78,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
         )}
       </div>
 
-      {(state.matches('editing') || date) && (
+      {/* {(state.matches('editing') || date) && (
         <DatePicker
           date={date ? new Date(date) : date}
           handleSetDate={(date) => {
@@ -83,7 +89,7 @@ export const Todo: React.FC<TodoProps> = ({ todoRef, isSelected = false }) => {
             closeDatepicker();
           }}
         />
-      )}
+      )} */}
 
       {state.matches('editing') && (
         <button

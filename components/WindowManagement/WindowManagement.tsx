@@ -69,8 +69,8 @@ export const WindowManagement = () => {
           ]);
         }}
         zIndex={activeWindows.indexOf(Apps.TODOS)}
-        minWidth={480}
-        minHeight={380}
+        minWidth={520}
+        minHeight={400}
         title='TODOS'
       >
         <Todos />

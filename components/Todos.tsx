@@ -70,16 +70,12 @@ const Todos = () => {
   const { todos } = state.context;
 
   const numActiveTodos = todos.filter((todo) => !todo.completed).length;
-  const todayTodos = todos.filter(
-    (todo) => todo.date && isToday(new Date(todo.date))
-  );
-  const notTodayTodos = todos.filter(
-    (todo) => !todo.date || !isToday(new Date(todo.date))
-  );
+  const todayTodos = todos.filter((todo) => todo.completed);
+  const notTodayTodos = todos.filter((todo) => !todo.completed);
 
   return (
-    <div className='dark:bg-slate-800 relative h-full bg-white rounded-lg shadow-inner'>
-      <div className='max-w-3xl p-6 mx-auto'>
+    <div className='dark:bg-slate-800 relative flex h-full bg-white rounded-lg shadow-inner'>
+      <div className='no-scrollbar flex-shrink-0 w-full max-w-3xl p-6 mx-auto overflow-y-auto'>
         <button
           onClick={() => send({ type: 'NEWTODO' })}
           className='bottom-4 right-4 dark:bg-blue-500 absolute p-4 bg-blue-500 rounded-full'
@@ -93,7 +89,7 @@ const Todos = () => {
           ${todayTodos.length === 0 ? 'opacity-20' : ''}
         `}
         >
-          Today
+          Done
         </h1>
 
         <div className='mt-4'>
@@ -102,13 +98,22 @@ const Todos = () => {
           ))}
         </div>
 
+        {todos.length > numActiveTodos ? (
+          <button
+            className='text-stone-500 dark:text-slate-500 mt-1'
+            onClick={() => send({ type: 'REMOVE_COMPLETED' })}
+          >
+            Clear completed todos
+          </button>
+        ) : null}
+
         <h2
           className={`
           text-3xl text-stone-800 dark:text-white font-bold mt-10
           ${notTodayTodos.length === 0 ? 'opacity-20' : ''}
         `}
         >
-          Not today
+          Not done
         </h2>
 
         <div className='mt-4'>
@@ -116,15 +121,6 @@ const Todos = () => {
             <Todo key={todo.id} todoRef={todo.ref} />
           ))}
         </div>
-
-        {todos.length > numActiveTodos ? (
-          <button
-            className='text-stone-600 dark:text-slate-500 mt-1'
-            onClick={() => send({ type: 'REMOVE_COMPLETED' })}
-          >
-            clear completed todos
-          </button>
-        ) : null}
       </div>
     </div>
   );

@@ -103,8 +103,12 @@ export const AppWindow = ({
           <motion.div
             dragControls={controls}
             onPan={(_, { offset: { x, y } }) => {
-              offsetWidth.set(x);
-              offsetHeight.set(y);
+              if (prevWidth.get() + x > minWidth) {
+                offsetWidth.set(x);
+              }
+              if (prevHeight.get() + y > minHeight) {
+                offsetHeight.set(y);
+              }
             }}
             onPanEnd={() => {
               prevWidth.set(prevWidth.get() + offsetWidth.get());
