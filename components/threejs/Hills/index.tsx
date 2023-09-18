@@ -5,6 +5,7 @@ import fragmentShader from './fragment.glsl';
 import vertexShader from './vertex.glsl';
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
+import { useTheme } from '../../../providers/Theme.provider';
 
 // new Color('#F3C29E'),
 // new Color('#F5D495'),
@@ -15,6 +16,8 @@ import { useControls } from 'leva';
 // new Color('#9B8FDB'),
 
 export const Hills = () => {
+  const theme = useTheme();
+  const isDark = theme === 'dark';
   const mesh = useRef<Mesh>(null);
   const shaderMaterialRef = useRef<ShaderMaterial>(null);
   const uniforms = useMemo(
@@ -25,9 +28,9 @@ export const Hills = () => {
           // new Color('#F3C29E'),
           // new Color('#F5D495'),
           // new Color('#F0E191'),
-          new Color('#F9FFFF'),
-          new Color('#FFF2DD'),
-          new Color('#FEFFDE'),
+          new Color(isDark ? '#252f6c' : '#F9FFFF'),
+          new Color(isDark ? '#2c3e62' : '#FFF2DD'),
+          new Color(isDark ? '#3e3990' : '#FEFFDE'),
         ],
       },
       uIntensity: {
@@ -65,9 +68,9 @@ export const Hills = () => {
       shaderMaterialRef.current.uniforms.uTime.value = clock.getElapsedTime();
       shaderMaterialRef.current.uniforms.uIntensity.value = intensity;
       shaderMaterialRef.current.uniforms.uColor.value = [
-        new Color(color1),
-        new Color(color2),
-        new Color(color3),
+        new Color(isDark ? '#252f6c' : color1),
+        new Color(isDark ? '#2c3e62' : color2),
+        new Color(isDark ? '#3e3990' : color3),
       ];
       shaderMaterialRef.current.uniforms.uRange.value = range;
       shaderMaterialRef.current.uniforms.uOffset.value = offset;
