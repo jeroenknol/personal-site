@@ -8,25 +8,47 @@ import {
   HiOutlineIdentification,
 } from 'react-icons/hi';
 
+const Bio = dynamic(() => import('../Bio'), { ssr: false });
 const Resume = dynamic(() => import('../Resume'), { ssr: false });
 const Todos = dynamic(() => import('../Todos'), {
   ssr: false,
 });
 
 enum Apps {
-  TODOS = 'Todos',
-  RESUME = 'Resume',
   BIO = 'Bio',
+  RESUME = 'Resume',
+  TODOS = 'Todos',
 }
 
 export const WindowManagement = () => {
   const [activeWindows, setActiveWindows] = useState<Apps[]>([
-    Apps.TODOS,
     Apps.RESUME,
+    Apps.BIO,
   ]);
 
   return (
     <>
+      <AppWindow
+        visible={activeWindows.includes(Apps.BIO)}
+        onClose={() =>
+          setActiveWindows((windows) =>
+            windows.filter((window) => window !== Apps.BIO)
+          )
+        }
+        onMouseDown={() => {
+          setActiveWindows((windows) => [
+            ...windows.filter((window) => window !== Apps.BIO),
+            Apps.BIO,
+          ]);
+        }}
+        minWidth={520}
+        minHeight={400}
+        zIndex={activeWindows.indexOf(Apps.BIO)}
+        title='BIO'
+      >
+        <Bio />
+      </AppWindow>
+
       <AppWindow
         visible={activeWindows.includes(Apps.TODOS)}
         onClose={() =>
@@ -72,6 +94,30 @@ export const WindowManagement = () => {
         <button
           onClick={() =>
             setActiveWindows((windows) => [
+              ...windows.filter((window) => window !== Apps.BIO),
+              Apps.BIO,
+            ])
+          }
+        >
+          <div
+            className={`relative flex transition-all items-center justify-center w-12 h-12 text-2xl rounded-lg  ${
+              activeWindows.includes(Apps.BIO)
+                ? 'bg-white/90 text-orange-500 shadow-appIcon'
+                : 'bg-white/0 text-gray-600'
+            } ${
+              activeWindows.at(1) === Apps.BIO
+                ? 'before:content-[""] before:absolute before:w-1.5 before:h-1.5 before:bg-current before:rounded-full before:top-1 before:left-1'
+                : ''
+            }
+            `}
+          >
+            <HiOutlineIdentification />
+          </div>
+        </button>
+
+        <button
+          onClick={() =>
+            setActiveWindows((windows) => [
               ...windows.filter((window) => window !== Apps.RESUME),
               Apps.RESUME,
             ])
@@ -92,6 +138,7 @@ export const WindowManagement = () => {
             <HiOutlineDocumentText />
           </div>
         </button>
+
         <button
           onClick={() =>
             setActiveWindows((windows) => [

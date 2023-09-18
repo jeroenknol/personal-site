@@ -36,8 +36,8 @@ export const AppWindow = ({
   const debug = false;
   const controls = useDragControls();
 
-  const prevX = useMotionValue<number>(Math.floor(Math.random() * 500));
-  const prevY = useMotionValue<number>(Math.floor(Math.random() * 500));
+  const prevX = useMotionValue<number>(30 + Math.floor(Math.random() * 200));
+  const prevY = useMotionValue<number>(30 + Math.floor(Math.random() * 200));
   const offsetX = useMotionValue<number>(0);
   const offsetY = useMotionValue<number>(0);
 
