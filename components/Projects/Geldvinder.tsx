@@ -12,7 +12,17 @@ export const Geldvinder = () => {
           height='60'
         />
       </div>
-      <Pillbox list={['Angular', 'Typescript', 'RxJS', 'Firebase']} />
+      <Pillbox
+        list={[
+          'React',
+          'Typescript',
+          'GraphQL',
+          'Framer Motion',
+          'Storybook',
+          'Formik',
+          'Tanstack/Query',
+        ]}
+      />
       <h3 className='text-md mt-6 font-semibold'>About the project</h3>
       <p className='mt-1 text-sm leading-relaxed'>
         Geldvinder is an app that helps people get on top of their financial
