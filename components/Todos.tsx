@@ -4,24 +4,23 @@ import { todosMachine } from '../machines/todosMachine';
 import type { TodoType } from '../machines/todosMachine';
 import { Todo } from '../components/Todo/Todo';
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { isToday } from 'date-fns';
 
 const initialTodos: TodoType[] = [
   {
     id: uuid(),
-    title: 'Do the dishes',
+    title: 'Say hello to the world',
     date: new Date().toISOString(),
     completed: false,
   },
   {
     id: uuid(),
-    title: 'Water the plants',
+    title: 'Order the bits from 0 to 1',
     date: null,
     completed: false,
   },
   {
     id: uuid(),
-    title: 'Learn xState',
+    title: 'Get in touch with Jeroen',
     date: null,
     completed: false,
   },

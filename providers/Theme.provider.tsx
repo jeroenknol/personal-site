@@ -27,11 +27,12 @@ export const ThemeProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (document) {
-      const prefersDarkMode = localStorage.getItem('theme') === 'dark';
-      if (prefersDarkMode) {
-        setTheme('dark');
-      } else {
+      const themePreference = localStorage.getItem('theme');
+
+      if (themePreference === 'light') {
         setTheme('light');
+      } else {
+        setTheme('dark');
       }
     }
   }, []);
